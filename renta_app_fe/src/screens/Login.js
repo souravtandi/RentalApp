@@ -10,6 +10,7 @@ function Login() {
     const [email, setEmail] = useState()
     const [password, setPassword] = useState()
     const [msg, setMsg] = useState()
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -18,26 +19,35 @@ function Login() {
         event.preventDefault();
 
         const request = { email, password }
+        setLoading(true);
 
         axios.post(`${API_URL}` + "/login", request)
             .then((data) => {
-                if(data){
+                if (data) {
                     setMsg("Login successfully!")
                     localStorage.setItem("token", data.data.result.token)
                     localStorage.setItem("id", data.data.result.id)
-                    dispatch({type: "APISUCCESS", payload: data.data.result.user})
+                    dispatch({ type: "APISUCCESS", payload: data.data.result.user })
+
+                    setLoading(false);
                     navigate("/")
                 }
-             })
+            })
             .catch((err) => {
-                dispatch({type: "APIERROR"})
+                setLoading(false);
+                dispatch({ type: "APIERROR" })
             })
     }
 
     return (
-        <div className='container'>
+        <div className='container p-4 my-2' style={{backgroundColor: "#ffe6e6"}}>
+            {loading ? <div className='text-center mt-5'>
+                <div className="spinner-border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div> : ''}
             <h4>{msg}</h4>
-            <h3 className='text-center mt-4'>Login Here</h3>
+            <h3 className='text-center mt-3' style={{color: "F62459"}}>Login here</h3>
             <form onSubmit={(event) => Login(event)} className='w-50 mx-auto'>
                 <div className="mb-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>

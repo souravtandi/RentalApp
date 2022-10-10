@@ -7,17 +7,8 @@ const PropertiesModel = mongoose.model("PropertiesModel");
 router.post('/addProperties', (request, response) => {
     const {title, description, price, userId} = request.body
 
-    if(!title) {
+    if(!title || !description || !price) {
         return response.status(400).json({ error: "title field is empty!" });
-    }
-    if(!description) {
-        return response.status(400).json({ error: "description field is empty!"});
-    }
-    if(!price) {
-        return response.status(400).json({ error: "price field is empty!"});
-    }
-    if(!userId) {
-        return response.status(400).json({ error: "userId field is empty!"});
     }
 
     const propertiesModel = new PropertiesModel({
@@ -49,6 +40,7 @@ router.get('/viewAllProperties/:userId', (req, res) => {
     PropertiesModel.find({ user: { $in:  req.params.userId } })
     //.populate("user", "_id fname lname email phone")
     .then((propertyFound) => {
+        console.log(propertyFound)
         return res.json({ allProperties: propertyFound })
     })
     .catch((err) => {
@@ -80,6 +72,16 @@ router.put('/viewProperties/:propertyId', (req, res) => {
             return res.json({ savedProperties: docs })
         }
     })
+})
+
+router.delete('/deletepost/:propertyId', async (req, res) => {
+   const result = await PropertiesModel.findByIdAndDelete(req.params.propertyId)
+   if(result){
+    res.send("deleted successfully")
+   }
+   else{
+    res.status(404).send("cannot find property with id "+ req.params.propertyId)
+   }
 })
 
 module.exports = router;

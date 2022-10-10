@@ -1,6 +1,8 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { API_URL } from '../config'
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom'
 
 function Register() {
 
@@ -10,27 +12,45 @@ function Register() {
   const [ password, setPassword ] = useState()
   const [ phone, setPhone ] = useState()
 
-  const [ msg, setMsg ] = useState()
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
+
 
   const registerUser = (event) => {
     event.preventDefault();
     const request = { fname, lname, email, password, phone };
+    setLoading(true);
 
     axios.post(`${API_URL}/register`, request)
     .then((data)=> {
       if(data){
-        setMsg("Register successfully")
+        setLoading(false);
+        Swal.fire({
+          icon: 'info',
+          title: 'Register successfully...',
+          text: 'We will email you once Refresh is completed!',
+        });
+        navigate("/login")
       }
     })
     .catch((err)=>{
-      setMsg("Register Failed")
+      setLoading(false);
+      Swal.fire({
+        icon: 'info',
+        title: 'Registration failed !!!',
+        text: 'Please Register again!',
+      });
     })
   }
 
   return (
-    <div className='container'>
-      <h4>{msg}</h4>
-            <h3 className='text-center mt-4'>Register Here</h3>
+    <div className='container' style={{backgroundColor: "#ffe6e6"}}>
+      {loading ? <div className='text-center mt-5'>
+                <div className="spinner-border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div> : ''}
+            <h3 className='text-center pt-3 mt-2'>Register Here</h3>
             <form onSubmit={(event) => registerUser(event)} className='w-50 mx-auto'>
                 <div className="mb-3">
                     <label htmlFor="firstName" className="form-label">First Name</label>

@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { API_URL } from '../config'
 import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2';
 
 function AddProperty() {
 
@@ -14,12 +15,16 @@ function AddProperty() {
 
     const addProperty = (event) => {
         event.preventDefault();
-        const request = { title, description, price };
+        const request = { title, description, price, userId: localStorage.getItem("id") };
         axios.post(`${API_URL}/addProperties`, request)
         .then((data)=> {
             if(data){
-              alert('Property added successfully')
-              navigate("/property")
+              Swal.fire({
+                icon: 'info',
+                title: 'Property added successfully...',
+                text: 'We will email you once Refresh is completed!',
+              });
+              navigate("/properties")
             }
           })
           .catch((err)=>{
@@ -29,7 +34,7 @@ function AddProperty() {
 
 
   return (
-    <div className='container'>
+    <div className='container pb-3' style={{backgroundColor: "#ffe6e6"}}>
         <h4>{msg}</h4>
             <h3 className='text-center mt-4'>Add Property</h3>
             <form onSubmit={(event) => addProperty(event)} className='w-50 mx-auto'>
