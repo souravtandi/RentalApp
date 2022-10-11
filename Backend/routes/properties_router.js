@@ -28,8 +28,9 @@ router.post('/addProperties', (request, response) => {
 
 router.get('/viewProperties/:propertyId', (req, res) => {
     PropertiesModel.findOne({_id: req.params.propertyId})
+    .populate("user", "_id fname lname email phone")
     .then((propertyFound) => {
-        return res.json({ savedProperties: propertyFound })
+        return res.json({ property: propertyFound })
     })
     .catch((err) => {
         return res.status(400).json({ err: "Property was not found!" })

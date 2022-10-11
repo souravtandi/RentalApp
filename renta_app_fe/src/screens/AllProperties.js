@@ -29,18 +29,20 @@ function AllProperties() {
         </div>
       </div> : ''}
       <h3 className='text-center mt-3' style={{ color: "F62459", backgroundColor: "#ffe6e6" }}>All Proprerties</h3>
-      {properties.map((property) => {
-        return (<div className="card w-50 container mb-2" style={{ backgroundColor: "#ffe6e6" }} key={property._id}>
+      <h5 className='container text-primary'>Total properties: {properties.length}</h5>
+      {properties.length > 0 ? properties.map((property) => {
+        return (<div className="card w-50 container mb-2" key={property._id}>
+          <img src="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?cs=srgb&dl=pexels-vecislavas-popa-1571460.jpg&fm=jpg" className="card-img-top w-10" alt="..."></img>
           <div className='container'>
             <div className="card-body">
               <h5 className="card-title">{property.title}</h5>
               <h6 className="card-subtitle mb-2 text-muted">{property.description}</h6>
               <p className="card-text">₹ {property.price}</p>
-              <Link to="/propertyDetails" className="btn btn-primary">Details</Link>
+              <Link to={`/propertyDetails/${property._id}`} className="btn btn-primary">Details</Link>
             </div>
           </div>
         </div>)
-      })
+      }) : <h4 className='text-danger'>No properties found!!!</h4>
 
       }
     </div>

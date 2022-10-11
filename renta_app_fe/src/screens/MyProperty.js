@@ -15,7 +15,7 @@ function MyProperty() {
     Swal.fire({
       title: 'Do you want to delete the property?',
       showDenyButton: true,
-      showCancelButton: true,
+      //showCancelButton: true,
       confirmButtonText: 'Delete',
       denyButtonText: `Don't delete`,
     }).then((result) => {
@@ -55,25 +55,34 @@ function MyProperty() {
   }, [])
 
   return (
-    <div className='container w-60'>
-      <h3 className='text-center mt-4'>My Properties</h3>
+    <div className='container'>
+      <h3 className='text-center mt-4' style={{ color: "F62459", backgroundColor: "#ffe6e6" }}>My Properties</h3>
+      <div className='row'>
       {loading ? <div className='text-center mt-5'>
         <div className="spinner-border" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
       </div> : ''}
-      {properties.map((property) => {
-        return (<div className="card mb-2" style={{ backgroundColor: "#ffe6e6" }} key={property._id}>
+      <h5 className='text-primary'>My total properties: {properties.length}</h5>
+      {properties.length > 0 ? properties.map((property) => {
+        return (<div className="col-lg-4 col-md-4 col-sm-12 mb-2" key={property._id}>
+          <div className='card' style={{ color: "F62459", backgroundColor: "#ffe6e6" }}>
+          <img src="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?cs=srgb&dl=pexels-vecislavas-popa-1571460.jpg&fm=jpg" className="card-img-top w-10" alt="..."></img>
           <div className="card-body">
             <h5 className="card-title">{property.title}</h5>
             <h6 className="card-subtitle mb-2 text-muted">{property.description}</h6>
             <p className="card-text">{property.price}</p>
-            <Link to="/propertyDetails" className="btn btn-primary me-3">Details</Link>
+            <div className='d-flex justify-content-evenly'>
+            <Link to={`/propertyDetails/${property._id}`} className="btn btn-primary">Details</Link>
+            <button className="btn btn-info px-4">Edit</button>
             <button onClick={()=> deleteProperty(property._id)} className="btn btn-danger">Delete</button>
+            </div>
+          </div>
           </div>
         </div>)
-      })
+      }) : <h4 className='text-danger'>No properties found!!!</h4>
 }
+    </div>
     </div>
   )
 }
