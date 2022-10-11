@@ -7,9 +7,6 @@ import Swal from 'sweetalert2';
 function MyProperty() {
 
   const [properties, setProperties] = useState([])
-  const [title, setTitle] = useState()
-  const [description, setDescription] = useState()
-  const [price, setPrice] = useState()
 
   const [loading, setLoading] = useState(false);
 
