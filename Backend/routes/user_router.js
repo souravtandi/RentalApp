@@ -5,6 +5,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config')
 
+const isValidEmail = require ('../validators/email_validator')
+
 const UserModel = mongoose.model("UserModel");
 
 router.post("/login", (request, response) => {
@@ -55,7 +57,7 @@ router.post('/register', function(request, response){
     if (!email) {
         return response.status(400).json({ error: "email field is empty" });
     }
-    if (!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)) {
+    if (!isValidEmail(email)) {
         return response.status(400).json({ error: "invalid email format" });
     }
     if (!password) {

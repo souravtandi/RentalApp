@@ -24,6 +24,8 @@ app.use(require('./routes/user_router'));
 require('./models/properties_model');
 app.use(require('./routes/properties_router'));
 
+app.use(require('./routes/email_router'));
+
 app.listen(APP_PORT, () => {
     console.log('Server started on port: ' + `${APP_PORT}`);
 });
