@@ -25,6 +25,16 @@ function Register() {
     .then((data)=> {
       if(data){
         setLoading(false);
+        const request = { from: "souravtandi10@gmail.com", to: "10souravtandi@gmail.com", subject: "registration mail", body: "registered"};
+        axios.post(`${API_URL}/sendEmail`, request)
+        .then((data)=>{
+          if(data){
+            console.log("email sent")
+          }
+        })
+        .catch((err)=>{
+          console.log(err + "email not sent")
+        })
         Swal.fire({
           icon: 'info',
           title: 'Register successfully...',

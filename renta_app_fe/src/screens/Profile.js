@@ -30,11 +30,11 @@ function Profile() {
   return (
     <div>
       {loading ? <div className='text-center mt-5'>
-                <div className="spinner-border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </div>
-            </div> : ''}
-      <div style={{backgroundColor: "#ffe6e6"}}>
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div> : ''}
+      <div style={{ backgroundColor: "#ffe6e6" }}>
         <div className="container py-5">
 
           <div className="row">
@@ -42,7 +42,7 @@ function Profile() {
               <div className="card mb-4">
                 <div className="card-body text-center">
                   <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
-                    className="rounded-circle img-fluid" style={{width: "150px"}} />
+                    className="rounded-circle img-fluid" style={{ width: "150px" }} />
                   <h5 className="my-3">{fname} {lname}</h5>
                   <p className="text-muted mb-1">Full Stack Developer</p>
                   <p className="text-muted mb-4">Bay Area, San Francisco, CA</p>
@@ -91,6 +91,10 @@ function Profile() {
                       <p className="text-muted mb-0">Bay Area, San Francisco, CA</p>
                     </div>
                   </div>
+                  <hr />
+                    <div className="col-sm-9">
+                      <button className="btn btn-primary">Edit Profile</button>
+                    </div>
                 </div>
               </div>
             </div>

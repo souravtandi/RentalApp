@@ -62,7 +62,7 @@ transporter.use('compile', hbs(handlebarOptions))
             return res.status(400).json({ error: "Cannot send email" });
         }
         console.log('Message sent: ' + info.response);
-        return res.status(200).send("email send successfully")
+        return res.status(200).send("email sent successfully")
     });
     
 })
