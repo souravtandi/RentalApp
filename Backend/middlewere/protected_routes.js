@@ -26,4 +26,14 @@ const authMiddleware = (req, res, next)=>{
     });
 }
 
-module.exports = authMiddleware;
+const authRole = (allowedRole)=>{
+    return (req, res, next) => {
+        const {role} = req.dbUser;
+        if(role!=allowedRole){
+            return res.status(403).json({ error: "You are not allowed to perform this operation" });
+        }
+        next();
+    }
+}
+
+module.exports = {authMiddleware, authRole}

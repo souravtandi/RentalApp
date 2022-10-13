@@ -81,7 +81,7 @@ function MyProperty() {
             <p className="card-text">{property.price}</p>
             <div className='d-flex justify-content-evenly'>
             <Link to={`/propertyDetails/${property._id}`} className="btn btn-primary">Details</Link>
-            <button className="btn btn-info px-4">Edit</button>
+            <Link to={`/editProperty/${property._id}`} className="btn btn-info px-4">Edit</Link>
             <button onClick={()=> deleteProperty(property._id)} className="btn btn-danger">Delete</button>
             </div>
           </div>

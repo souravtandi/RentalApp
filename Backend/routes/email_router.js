@@ -7,10 +7,12 @@ const hbs = require('nodemailer-express-handlebars')
 const nodemailer = require('nodemailer')
 const path = require('path')
 
+const {authMiddleware} = require('../middlewere/protected_routes');
+
 //https://mailtrap.io/inboxes/1920531/messages/3056738580
 //https://blog.logrocket.com/send-emails-nodejs-nodemailer/
 
-router.post('/sendEmail', (req, res) => {
+router.post('/sendEmail', authMiddleware, (req, res) => {
     //console.log(req.body)
     const { from, to, subject, body } = req.body;
     if (!from || !to || !subject || !body) {

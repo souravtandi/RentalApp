@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { API_URL } from '../config'
 import axios from 'axios';
+import { Link } from 'react-router-dom'
 
 function Profile() {
 
@@ -8,11 +9,18 @@ function Profile() {
   const [lname, setLname] = useState()
   const [email, setEmail] = useState()
   const [phone, setPhone] = useState()
-
+  const [userId, setUserId] = useState()
   const [loading, setLoading] = useState(false);
 
+  const CONFIG_OBJ = {
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + localStorage.getItem("token")
+    }
+  };
+
   const getProfile = async (userId) => {
-    const profileData = await axios.get(`${API_URL}/user/profile/${userId}`)
+    const profileData = await axios.get(`${API_URL}/user/profile/${userId}`, CONFIG_OBJ)
     setFname(profileData.data.user.fname)
     setLname(profileData.data.user.lname)
     setEmail(profileData.data.user.email)
@@ -21,8 +29,8 @@ function Profile() {
   }
 
   useEffect(() => {
-    const userId = localStorage.getItem("id")
-    getProfile(userId)
+    setUserId(localStorage.getItem("id"))
+    getProfile(localStorage.getItem("id"))
     setLoading(true);
   }, [])
 
@@ -92,9 +100,9 @@ function Profile() {
                     </div>
                   </div>
                   <hr />
-                    <div className="col-sm-9">
-                      <button className="btn btn-primary">Edit Profile</button>
-                    </div>
+                  <Link to={`/user/profile/${userId}`} className="btn btn-warning text-uppercase">
+                    <i className="fa-solid fa-pen-to-square me-1"></i>Edit
+                  </Link>
                 </div>
               </div>
             </div>

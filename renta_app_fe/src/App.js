@@ -27,6 +27,7 @@ function App() {
           <Route exact path='/propertyDetails/:propertyId' element={<PropertyDetails />}></Route>
           {user.user.fname ?<Route exact path='/properties' element={<MyProperty />}></Route> : ""}
           {user.user.fname ?<Route exact path='/addProperty' element={<AddProperty />}></Route> : ""}
+          {user.user.fname ?<Route exact path='/editProperty/:propertyId' element={<AddProperty />}></Route> : ""}
           {user.user.fname ?<Route exact path='/userProfile' element={<Profile />}></Route> : ""}
         </Routes>
       </div>

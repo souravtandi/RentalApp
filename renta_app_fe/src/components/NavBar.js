@@ -26,9 +26,9 @@ function NavBar() {
                 </button>
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        { !user.user.fname ? <li className="nav-item">
+                        <li className="nav-item">
                             <NavLink className="nav-link" to="/allProperties">All Properties</NavLink>
-                        </li> :''}
+                        </li>
                         { user.user.fname ? <li className="nav-item">
                             <NavLink className="nav-link" to="/properties">My Properties</NavLink>
                         </li> : '' }

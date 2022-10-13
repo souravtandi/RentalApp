@@ -4,16 +4,11 @@ const mongoose = require("mongoose");
 
 const PropertiesModel = mongoose.model("PropertiesModel");
 
-const authMiddleware = require('../middlewere/protected_routes');
+const {authMiddleware, authRole} = require('../middlewere/protected_routes');
 
-router.post('/addProperties', authMiddleware, (request, response) => {
+router.post('/addProperties', authMiddleware, authRole('owner'), (request, response) => {
     const {title, description, price, userId} = request.body
 
-    const {role} = request.dbUser;
-    console.log(role)
-    if(role==='tenant'){
-        return response.status(403).json({ error: "You are not owner so you cannot create property" });
-    }
         if(!title || !description || !price) {
             return response.status(400).json({ error: "title field is empty!" });
         }
@@ -67,7 +62,7 @@ router.get('/viewAllProperties', (req, res) => {
      })
 })
 
-router.put('/viewProperties/:propertyId', authMiddleware, (req, res) => {
+router.put('/editProperty/:propertyId', authMiddleware, authRole('owner'), (req, res) => {
     PropertiesModel.findByIdAndUpdate(req.params.propertyId, {
         title: req.body.title, description: req.body.description, price: req.body.price
     }, {new: true}, function (err, docs) {

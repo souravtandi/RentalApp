@@ -47,7 +47,7 @@ router.post("/login", (request, response) => {
 });
 
 router.post('/register', function(request, response){
-    const { fname, lname, email, password, phone } = request.body;//object destructring feature of ES6
+    const { fname, lname, email, password, phone, profilePicUrl, userAdhar } = request.body;//object destructring feature of ES6
     if (!fname) {
         return response.status(400).json({ error: "first name field is empty" });
     }
@@ -75,7 +75,9 @@ router.post('/register', function(request, response){
             lname,
             email,
             password: hashedPassword,
-            phone
+            phone,
+            profilePicUrl,
+            userAdhar
         });
     
         userModel.save()
