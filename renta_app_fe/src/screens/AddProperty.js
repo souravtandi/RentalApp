@@ -13,10 +13,17 @@ function AddProperty() {
     const [ msg, setMsg ] = useState()
     const navigate = useNavigate()
 
+    const CONFIG_OBJ = {
+      headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + localStorage.getItem("token")
+      }
+  };
+
     const addProperty = (event) => {
         event.preventDefault();
         const request = { title, description, price, userId: localStorage.getItem("id") };
-        axios.post(`${API_URL}/addProperties`, request)
+        axios.post(`${API_URL}/addProperties`, request, CONFIG_OBJ)
         .then((data)=> {
             if(data){
               Swal.fire({

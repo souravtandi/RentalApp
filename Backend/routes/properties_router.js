@@ -4,26 +4,33 @@ const mongoose = require("mongoose");
 
 const PropertiesModel = mongoose.model("PropertiesModel");
 
-router.post('/addProperties', (request, response) => {
+const authMiddleware = require('../middlewere/protected_routes');
+
+router.post('/addProperties', authMiddleware, (request, response) => {
     const {title, description, price, userId} = request.body
 
-    if(!title || !description || !price) {
-        return response.status(400).json({ error: "title field is empty!" });
+    const {role} = request.dbUser;
+    console.log(role)
+    if(role==='tenant'){
+        return response.status(403).json({ error: "You are not owner so you cannot create property" });
     }
+        if(!title || !description || !price) {
+            return response.status(400).json({ error: "title field is empty!" });
+        }
 
-    const propertiesModel = new PropertiesModel({
-        title,
-        description,
-        price,
-        user: userId
-    })
-    propertiesModel.save()
-        .then((savedProperties) => {
-            response.status(201).json({ "savedProperties": savedProperties })
+        const propertiesModel = new PropertiesModel({
+            title,
+            description,
+            price,
+            user: userId
         })
-        .catch((error)=> {
-            return response.status(400).json({ error: "error occured"})
-        })
+        propertiesModel.save()
+            .then((savedProperties) => {
+                response.status(201).json({ "savedProperties": savedProperties })
+            })
+            .catch((error)=> {
+                return response.status(400).json({ error: "error occured"})
+            })
 })
 
 router.get('/viewProperties/:propertyId', (req, res) => {
@@ -37,7 +44,7 @@ router.get('/viewProperties/:propertyId', (req, res) => {
      })
 })
 
-router.get('/viewAllProperties/:userId', (req, res) => {
+router.get('/viewAllProperties/:userId', authMiddleware, (req, res) => {
     PropertiesModel.find({ user: { $in:  req.params.userId } })
     //.populate("user", "_id fname lname email phone")
     .then((propertyFound) => {
@@ -60,7 +67,7 @@ router.get('/viewAllProperties', (req, res) => {
      })
 })
 
-router.put('/viewProperties/:propertyId', (req, res) => {
+router.put('/viewProperties/:propertyId', authMiddleware, (req, res) => {
     PropertiesModel.findByIdAndUpdate(req.params.propertyId, {
         title: req.body.title, description: req.body.description, price: req.body.price
     }, {new: true}, function (err, docs) {
@@ -75,7 +82,7 @@ router.put('/viewProperties/:propertyId', (req, res) => {
     })
 })
 
-router.delete('/deletepost/:propertyId', async (req, res) => {
+router.delete('/deletepost/:propertyId', authMiddleware, async (req, res) => {
    const result = await PropertiesModel.findByIdAndDelete(req.params.propertyId)
    if(result){
     res.send("deleted successfully")

@@ -32,7 +32,7 @@ function NavBar() {
                         { user.user.fname ? <li className="nav-item">
                             <NavLink className="nav-link" to="/properties">My Properties</NavLink>
                         </li> : '' }
-                        { user.user.fname ? <li className="nav-item">
+                        { user.user.fname && user.user.role=='owner' ? <li className="nav-item">
                             <NavLink className="nav-link" to="/addProperty">Add Property</NavLink>
                         </li> : '' }
                         { user.user.fname ? '' : <li className="nav-item">

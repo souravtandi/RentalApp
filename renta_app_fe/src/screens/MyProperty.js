@@ -10,6 +10,13 @@ function MyProperty() {
 
   const [loading, setLoading] = useState(false);
 
+  const CONFIG_OBJ = {
+      headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + localStorage.getItem("token")
+      }
+  };
+
   const deleteProperty = (propertyId)=>{
 
     Swal.fire({
@@ -22,7 +29,7 @@ function MyProperty() {
       setLoading(true)
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        axios.delete(`${API_URL}/deletepost/${propertyId}`)
+        axios.delete(`${API_URL}/deletepost/${propertyId}`, CONFIG_OBJ)
         .then((data)=>{
           setLoading(false)
           getAllPropertiesForUser(localStorage.getItem("id"))//to get the remaining properties
@@ -42,7 +49,7 @@ function MyProperty() {
   }
 
   const getAllPropertiesForUser = async (userId) => {
-    const propertiesData = await axios.get(`${API_URL}/viewAllProperties/${userId}`)
+    const propertiesData = await axios.get(`${API_URL}/viewAllProperties/${userId}`, CONFIG_OBJ)
     setProperties(propertiesData.data.allProperties)
     console.log({ properties })
     setLoading(false);
@@ -63,7 +70,7 @@ function MyProperty() {
           <span className="visually-hidden">Loading...</span>
         </div>
       </div> : ''}
-      <h5 className='text-primary'>My total properties: {properties.length}</h5>
+      {!loading ? <div><h5 className='text-primary'>My total properties: {properties.length}</h5></div>: ""}
       {properties.length > 0 ? properties.map((property) => {
         return (<div className="col-lg-4 col-md-4 col-sm-12 mb-2" key={property._id}>
           <div className='card' style={{ color: "F62459", backgroundColor: "#ffe6e6" }}>
@@ -80,8 +87,10 @@ function MyProperty() {
           </div>
           </div>
         </div>)
-      }) : <h4 className='text-danger'>No properties found!!!</h4>
-}
+      }): ""
+      
+    }
+    {properties.length < 1 ? <h4 className='text-danger'>No properties found!!!</h4>: ""}
     </div>
     </div>
   )
