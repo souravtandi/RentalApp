@@ -14,6 +14,10 @@ const propertiesSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    propertyImgName: {
+        type: String,
+        required: true
+    },
     user: {
         type: ObjectId,
         ref: "UserModel"

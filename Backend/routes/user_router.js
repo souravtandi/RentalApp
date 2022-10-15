@@ -5,6 +5,17 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config')
 
+const multer = require('multer')//for image upload
+const Storage = multer.diskStorage({
+    destination:'uploads',
+    filename:(request, file, cb) => {
+        cb(null, file.originalname);
+    },
+});
+const upload = multer({
+    storage: Storage
+}).single('testImage')
+
 const isValidEmail = require ('../validators/email_validator')
 
 const UserModel = mongoose.model("UserModel");
@@ -46,8 +57,8 @@ router.post("/login", (request, response) => {
 
 });
 
-router.post('/register', function(request, response){
-    const { fname, lname, email, password, phone, profilePicUrl, userAdhar } = request.body;//object destructring feature of ES6
+router.post('/register',upload, function(request, response){
+    const { fname, lname, email, password, phone } = request.body;//object destructring feature of ES6
     if (!fname) {
         return response.status(400).json({ error: "first name field is empty" });
     }
@@ -75,9 +86,7 @@ router.post('/register', function(request, response){
             lname,
             email,
             password: hashedPassword,
-            phone,
-            profilePicUrl,
-            userAdhar
+            phone
         });
     
         userModel.save()

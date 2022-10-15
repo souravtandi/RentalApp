@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 
+global.__basedir = __dirname;
+
 const mongoose = require('mongoose');
 const { MONGO_DB } = require('./config');
 mongoose.connect(MONGO_DB);
@@ -26,6 +28,11 @@ app.use(require('./routes/properties_router'));
 
 app.use(require('./routes/email_router'));
 app.use(require('./routes/sms_router'));
+
+require('./models/user_model');
+app.use(require('./routes/user_router'));
+
+app.use(require('./routes/file_router'));
 
 app.listen(APP_PORT, () => {
     console.log('Server started on port: ' + `${APP_PORT}`);

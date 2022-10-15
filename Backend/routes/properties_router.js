@@ -7,7 +7,7 @@ const PropertiesModel = mongoose.model("PropertiesModel");
 const {authMiddleware, authRole} = require('../middlewere/protected_routes');
 
 router.post('/addProperties', authMiddleware, authRole('owner'), (request, response) => {
-    const {title, description, price, userId} = request.body
+    const {title, description, price, imgName, userId} = request.body
 
         if(!title || !description || !price) {
             return response.status(400).json({ error: "title field is empty!" });
@@ -17,6 +17,7 @@ router.post('/addProperties', authMiddleware, authRole('owner'), (request, respo
             title,
             description,
             price,
+            propertyImgName: imgName,
             user: userId
         })
         propertiesModel.save()
@@ -64,7 +65,7 @@ router.get('/viewAllProperties', (req, res) => {
 
 router.put('/editProperty/:propertyId', authMiddleware, authRole('owner'), (req, res) => {
     PropertiesModel.findByIdAndUpdate(req.params.propertyId, {
-        title: req.body.title, description: req.body.description, price: req.body.price
+        title: req.body.title, description: req.body.description, price: req.body.price, propertyImgName: req.body.imgName
     }, {new: true}, function (err, docs) {
         if (err){
             console.log(err)
