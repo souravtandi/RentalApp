@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { API_URL } from '../config'
 import Swal from 'sweetalert2';
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, Link } from 'react-router-dom'
 
 function Register() {
 
@@ -32,7 +32,7 @@ function Register() {
     setEmail(user.data.user.email)
     setPhone(user.data.user.phone)
   }
-  useEffect(()=>{
+  useEffect(() => {
     getUserByuserId(userId)
   }, []);
 
@@ -42,57 +42,57 @@ function Register() {
     setLoading(true);
     let url = `${API_URL}/register`;
     let msg = 'User register successfully...';
-    if(userId){
+    if (userId) {
       url = `${API_URL}/user/profile/${userId}`;
       msg = 'User edited sussessfully...';
       axios.put(url, request, CONFIG_OBJ)
-      .then((data)=>{
-        if(data){
-          Swal.fire({
-            icon: 'info',
-            title: msg,
-            text: 'We will email you once Refresh is completed!',
-          });
-          navigate('/userProfile')
-        }
-      })
-      .catch((err)=>{
-        setMsg("User registration failed!!!")
-      })
-    }else{
+        .then((data) => {
+          if (data) {
+            Swal.fire({
+              icon: 'info',
+              title: msg,
+              text: 'We will email you once Refresh is completed!',
+            });
+            navigate('/userProfile')
+          }
+        })
+        .catch((err) => {
+          setMsg("User registration failed!!!")
+        })
+    } else {
       axios.post(`${API_URL}/register`, request, CONFIG_OBJ)
-      .then((data) => {
-        if (data) {
+        .then((data) => {
+          if (data) {
+            setLoading(false);
+            const request = { from: "souravtandi10@gmail.com", to: "10souravtandi@gmail.com", subject: "registration mail", body: "registered" };
+            axios.post(`${API_URL}/sendEmail`, request, CONFIG_OBJ)
+              .then((data) => {
+                if (data) {
+                  console.log("email sent")
+                }
+              })
+              .catch((err) => {
+                console.log(err + "email not sent")
+              })
+            Swal.fire({
+              icon: 'info',
+              title: 'Register successfully...',
+              text: 'We will email you once Refresh is completed!',
+            });
+            navigate("/login")
+          }
+        })
+        .catch((err) => {
           setLoading(false);
-          const request = { from: "souravtandi10@gmail.com", to: "10souravtandi@gmail.com", subject: "registration mail", body: "registered" };
-          axios.post(`${API_URL}/sendEmail`, request, CONFIG_OBJ)
-            .then((data) => {
-              if (data) {
-                console.log("email sent")
-              }
-            })
-            .catch((err) => {
-              console.log(err + "email not sent")
-            })
           Swal.fire({
             icon: 'info',
-            title: 'Register successfully...',
-            text: 'We will email you once Refresh is completed!',
+            title: 'Registration failed !!!',
+            text: 'Please Register again!'
           });
-          navigate("/login")
-        }
-      })
-      .catch((err) => {
-        setLoading(false);
-        Swal.fire({
-          icon: 'info',
-          title: 'Registration failed !!!',
-          text: 'Please Register again!'
-        });
-      })
+        })
     }
 
-    
+
   }
 
   return (
@@ -102,8 +102,8 @@ function Register() {
           <span className="visually-hidden">Loading...</span>
         </div>
       </div> : ''}
-      <h3 className='text-center pt-3 mt-2'>{ userId ? "Edit User" : "Register User"}</h3>
-      <form onSubmit={(event) => registerUser(event)} className='w-50 mx-auto'>
+      <h3 className='text-center pt-3 mt-2'>{userId ? "Edit User" : "Register User"}</h3>
+      <form onSubmit={(event) => registerUser(event)} className='form-container mx-auto'>
         <div className="mb-3">
           <label htmlFor="firstName" className="form-label">First Name</label>
           <input onChange={(event) => setFname(event.target.value)} value={fname} type="text" className="form-control" id="firstName" />
@@ -112,12 +112,12 @@ function Register() {
           <label htmlFor="lastName" className="form-label">Last Name</label>
           <input onChange={(event) => setLname(event.target.value)} value={lname} type="text" className="form-control" id="lastName" />
         </div>
-        { userId ? "" : <div className="mb-3">
+        {userId ? "" : <div className="mb-3">
           <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
           <input onChange={(event) => setEmail(event.target.value)} type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
           <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
         </div>}
-        { userId ? "" : <div className="mb-3">
+        {userId ? "" : <div className="mb-3">
           <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
           <input onChange={(event) => setPassword(event.target.value)} type="password" className="form-control" id="exampleInputPassword1" />
         </div>}
@@ -126,9 +126,14 @@ function Register() {
           <input onChange={(event) => setPhone(event.target.value)} value={phone} type="text" className="form-control" id="phone" />
         </div>
         <div className='d-grid mt-3'>
-          <button type="submit" className="btn btn-success">{ userId ? "Save" : Register}</button>
+          <button type="submit" className="btn btn-success">{userId ? "Save" : "Register"}</button>
         </div>
       </form>
+      <div className="text-center">
+          <div id="emailHelp" className="form-text text-primary">Already have an account ?
+            <Link to="/login">Click here to Login</Link>
+          </div>
+        </div>
     </div>
   )
 }

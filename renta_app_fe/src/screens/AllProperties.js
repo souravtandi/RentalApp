@@ -34,7 +34,7 @@ function AllProperties() {
       {properties.length > 0 ? properties.map((property) => {
         return (<div className="col-lg-4 col-md-4 col-sm-12 mb-2" key={property._id}>
           <div className='card'>
-          <img src="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?cs=srgb&dl=pexels-vecislavas-popa-1571460.jpg&fm=jpg" className="card-img-top w-10" alt="..."></img>
+          <img src={`${API_URL}/files/${property.propertyImgName}`} className="card-img-top w-10" alt="..."></img>
           <div className="card-body">
             <h5 className="card-title">{property.title}</h5>
             <h6 className="card-subtitle mb-2 text-muted">{property.description}</h6>

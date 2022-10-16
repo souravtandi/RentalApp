@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { API_URL } from '../config'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
 
@@ -48,7 +48,7 @@ function Login() {
             </div> : ''}
             <h4>{msg}</h4>
             <h3 className='text-center mt-3' style={{ color: "F62459" }}>Login here</h3>
-            <form onSubmit={(event) => Login(event)} className='w-50 mx-auto'>
+            <form onSubmit={(event) => Login(event)} className='form-container mx-auto'>
                 <div className="mb-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
                     <input onChange={(event) => setEmail(event.target.value)} type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
@@ -61,7 +61,11 @@ function Login() {
                 <div className='d-grid mt-3'>
                     <button type="submit" className="btn btn-primary">Login</button>
                 </div>
-
+                <div className="mt-4">
+                    <div id="emailHelp" className="form-text text-primary">New user ?
+                        <Link to="/register">Click here to Register</Link>
+                    </div>
+                </div>
             </form>
         </div>
     )

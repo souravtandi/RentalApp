@@ -9,6 +9,7 @@ function Profile() {
   const [lname, setLname] = useState()
   const [email, setEmail] = useState()
   const [phone, setPhone] = useState()
+  const [profileImg, setProfileImg] = useState()
   const [userId, setUserId] = useState()
   const [loading, setLoading] = useState(false);
 
@@ -25,6 +26,7 @@ function Profile() {
     setLname(profileData.data.user.lname)
     setEmail(profileData.data.user.email)
     setPhone(profileData.data.user.phone)
+    setProfileImg(profileData.data.user.profileImgName)
     setLoading(false);
   }
 
@@ -49,7 +51,7 @@ function Profile() {
             <div className="col-lg-4">
               <div className="card mb-4">
                 <div className="card-body text-center">
-                  <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                  <img src={`${API_URL}/files/${profileImg}`} alt="avatar"
                     className="rounded-circle img-fluid" style={{ width: "150px" }} />
                   <h5 className="my-3">{fname} {lname}</h5>
                   <p className="text-muted mb-1">Full Stack Developer</p>

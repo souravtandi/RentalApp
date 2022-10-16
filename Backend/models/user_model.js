@@ -26,6 +26,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "tenant"
     },
+    profileImgName: {
+        type: String,
+        required: true
+    },
     properties: [{type: ObjectId, ref: "UserModel"}]
  });
 

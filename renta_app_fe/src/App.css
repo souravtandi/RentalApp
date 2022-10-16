@@ -2,6 +2,9 @@
   font-family: 'Ubuntu', sans-serif;
   /* font-family: 'Cinzel', serif; */
 }
+.form-container{
+  width: 40vw;
+}
 /* .appbackground{
   background-color: #eee6ff;
   height: 100vh;
@@ -13,5 +16,11 @@
 
 .h3{
   font-family: 'Cinzel', serif;
+}
+
+@media only screen and (max-width: 768px) {
+  .form-container{
+    width: 90vw;
+  }
 }
 

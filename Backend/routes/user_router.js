@@ -58,7 +58,7 @@ router.post("/login", (request, response) => {
 });
 
 router.post('/register',upload, function(request, response){
-    const { fname, lname, email, password, phone } = request.body;//object destructring feature of ES6
+    const { fname, lname, email, password, phone, imgName } = request.body;//object destructring feature of ES6
     if (!fname) {
         return response.status(400).json({ error: "first name field is empty" });
     }
@@ -86,7 +86,8 @@ router.post('/register',upload, function(request, response){
             lname,
             email,
             password: hashedPassword,
-            phone
+            phone,
+            profileImgName: imgName
         });
     
         userModel.save()
@@ -117,7 +118,7 @@ router.get('/user/profile/:userId', (req, res)=>{
 
 router.put('/user/profile/:userId', (req, res) => {
     UserModel.findByIdAndUpdate(req.params.userId, {
-        fname : req.body.fname, lname: req.body.lname, phone: req.body.phone
+        fname : req.body.fname, lname: req.body.lname, phone: req.body.phone, profileImgName: req.body.imgName
     }, null, function (err, docs) {
         if (err){
             console.log(err)
