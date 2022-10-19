@@ -63,19 +63,19 @@ function MyProperty() {
 
   return (
     <div className='container'>
-      <h3 className='text-center mt-4' style={{ color: "F62459", backgroundColor: "#ffe6e6" }}>My Properties</h3>
+      <h3 className='text-center mt-3 shadow'>My Properties</h3>
       <div className='row'>
       {loading ? <div className='text-center mt-5'>
         <div className="spinner-border" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
       </div> : ''}
-      {!loading ? <div><h5 className='text-primary'>My total properties: {properties.length}</h5></div>: ""}
+      {!loading ? <div><h5 className='my-2'>My total properties: {properties.length}</h5></div>: ""}
       {properties.length > 0 ? properties.map((property) => {
         return (<div className="col-lg-4 col-md-4 col-sm-12 mb-2" key={property._id}>
-          <div className='card' style={{ color: "F62459", backgroundColor: "#ffe6e6" }}>
+          <div className='card'>
           <img src={`http://localhost:5000/files/${property.propertyImgName}`} className="card-img-top w-10" alt="..."></img>
-          <div className="card-body">
+          <div className="card-body shadow">
             <h5 className="card-title">{property.title}</h5>
             <h6 className="card-subtitle mb-2 text-muted">{property.description}</h6>
             <p className="card-text">{property.price}</p>

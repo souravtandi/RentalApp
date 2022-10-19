@@ -104,7 +104,7 @@ function AddProperty() {
   }
 
   return (
-    <div className='container pb-3' style={{ backgroundColor: "#ffe6e6" }}>
+    <div className='container pb-3 shadow mb-3'>
       <h3 className='text-center mt-4'>{propertyId ? "Edit" : "Add"} Property</h3>
       <form onSubmit={(event) => addProperty(event)} className='w-50 mx-auto'>
         <div className="mb-3">

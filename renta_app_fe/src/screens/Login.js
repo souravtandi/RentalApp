@@ -47,8 +47,8 @@ function Login() {
                 </div>
             </div> : ''}
             <h4>{msg}</h4>
-            <h3 className='text-center mt-3' style={{ color: "F62459" }}>Login here</h3>
-            <form onSubmit={(event) => Login(event)} className='form-container mx-auto'>
+            <h3 className='text-center mt-2 shadow' style={{ color: "F62459" }}>Login here</h3>
+            <form onSubmit={(event) => Login(event)} className='form-container mx-auto mt-5'>
                 <div className="mb-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
                     <input onChange={(event) => setEmail(event.target.value)} type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />

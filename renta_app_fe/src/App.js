@@ -11,6 +11,7 @@ import AllProperties from './screens/AllProperties';
 import {useSelector} from 'react-redux'
 import PropertyDetails from './screens/PropertyDetails';
 import EditUser from './screens/EditUser';
+import Footer from './components/Footer';
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
           {user.user.fname ?<Route exact path='/editProperty/:propertyId' element={<AddProperty />}></Route> : ""}
           {user.user.fname ?<Route exact path='/userProfile' element={<Profile />}></Route> : ""}
         </Routes>
+        <Footer/>
       </div>
     </Router>
   );

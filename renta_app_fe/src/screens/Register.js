@@ -102,8 +102,8 @@ function Register() {
           <span className="visually-hidden">Loading...</span>
         </div>
       </div> : ''}
-      <h3 className='text-center pt-3 mt-2'>{userId ? "Edit User" : "Register User"}</h3>
-      <form onSubmit={(event) => registerUser(event)} className='form-container mx-auto'>
+      <h3 className='text-center mt-4 shadow'>{userId ? "Edit User" : "Register User"}</h3>
+      <form onSubmit={(event) => registerUser(event)} className='form-container mx-auto mt-4'>
         <div className="mb-3">
           <label htmlFor="firstName" className="form-label">First Name</label>
           <input onChange={(event) => setFname(event.target.value)} value={fname} type="text" className="form-control" id="firstName" />

@@ -66,11 +66,11 @@ function PropertyDetails() {
                     <span className="visually-hidden">Loading...</span>
                 </div>
             </div> : ''}
-      <div className='d-flex'>
-        <div className='col-8'>
+      <div className='profileDtls'>
+        <div className='pimg col-8 me-2'>
           <img src={`${API_URL}/files/${property.propertyImgName}`} className="card-img-top" alt="..." />
         </div>
-        <div className="col-lg-8">
+        <div className="col-lg-5">
               <div className="card mb-4">
                 <div className="card-body">
                 <div className="row">
