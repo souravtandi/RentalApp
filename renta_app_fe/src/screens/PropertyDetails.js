@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { API_URL } from '../config'
 import axios from 'axios';
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import Swal from 'sweetalert2';
@@ -60,13 +60,14 @@ function PropertyDetails() {
   }, [])
   return (
     <div className='container'>
-      <h3 className='text-center'>Property Details</h3>
+      <h3 className='text-center mt-2 shadow' style={{ color: "F62459" }}>Property Details</h3>
+      <Link to={"/allProperties"} className= 'btn btn-outline-primary'>Go Back <i className="fa-solid fa-circle-arrow-left"></i></Link>
       {loading ? <div className='text-center mt-5'>
                 <div className="spinner-border" role="status">
                     <span className="visually-hidden">Loading...</span>
                 </div>
             </div> : ''}
-      <div className='profileDtls'>
+      <div className='profileDtls my-3'>
         <div className='pimg col-8 me-2'>
           <img src={`${API_URL}/files/${property.propertyImgName}`} className="card-img-top" alt="..." />
         </div>

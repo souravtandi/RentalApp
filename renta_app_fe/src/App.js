@@ -25,7 +25,7 @@ function App() {
           <Route exact path='/' element={<Home />}></Route>
           <Route exact path='/login' element={<Login />}></Route>
           <Route exact path='/register' element={<Register />}></Route>
-          {user.user.fname ?<Route exact path='/user/profile/:userId' element={<EditUser />}></Route> : ""}
+          {user.user.fname ?<Route exact path='/user/profile/:type/:userId' element={<EditUser />}></Route> : ""}
           <Route exact path='/allProperties' element={<AllProperties />}></Route>
           <Route exact path='/propertyDetails/:propertyId' element={<PropertyDetails />}></Route>
           {user.user.fname ?<Route exact path='/properties' element={<MyProperty />}></Route> : ""}

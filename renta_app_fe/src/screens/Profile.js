@@ -45,14 +45,24 @@ function Profile() {
         </div>
       </div> : ''}
       <div>
-        <div className="container py-5">
-
+        <div className="container mt-3">
+          <h4>My Profile</h4>
           <div className="row">
             <div className="col-lg-4">
               <div className="card mb-4">
                 <div className="card-body text-center">
-                  <img src={`${API_URL}/files/${profileImg}`} alt="avatar"
-                    className="rounded-circle img-fluid" style={{ width: "150px" }} />
+                  <div className='d-flex flex-row-reverse' >
+                   <Link to={`/user/profile/pp/${userId}`} className="btn btn-warning text-uppercase">
+                      <i className="fs-4 fa-solid fa-pen-to-square me-1" style={{ cursor: 'pointer' }}></i>
+                    </Link>
+                    <img src={`${API_URL}/files/${profileImg}`} alt="avatar"
+                      className="rounded-circle img-fluid" />
+                  </div>
+                  {/*<div style={{ position:'relative' }} >
+                    <i className="fs-4 fa-solid fa-pen-to-square me-1 text-primary" style={{ right: "5%", top: "5%", position:'absolute', cursor: 'pointer' }}></i>
+                    <img src={`${API_URL}/files/${profileImg}`} alt="avatar"
+                      className="rounded-circle img-fluid" />
+                  </div>*/}
                   <h5 className="my-3">{fname} {lname}</h5>
                   <p className="text-muted mb-1">Full Stack Developer</p>
                   <p className="text-muted mb-4">Bay Area, San Francisco, CA</p>
@@ -66,6 +76,13 @@ function Profile() {
             <div className="col-lg-8">
               <div className="card mb-4">
                 <div className="card-body">
+                  <div className='d-flex justify-content-between'>
+                    <h4>Personal Details</h4>
+                    <Link to={`/user/profile/pd/${userId}`} className="btn btn-warning text-uppercase">
+                      <i className="fa-solid fa-pen-to-square"></i>Edit
+                    </Link>
+                  </div>
+                  <hr />
                   <div className="row">
                     <div className="col-sm-3">
                       <p className="mb-0">Full Name</p>
@@ -92,19 +109,70 @@ function Profile() {
                       <p className="text-muted mb-0">{phone}</p>
                     </div>
                   </div>
+                </div>
+              </div>
+              <div className="card mb-4">
+                <div className="card-body">
+                  <div className='d-flex justify-content-between'>
+                    <h4>Address Details</h4>
+                    <Link to={`/user/profile/ad/${userId}`} className="btn btn-warning text-uppercase">
+                      <i className="fa-solid fa-pen-to-square"></i>Edit
+                    </Link>
+                  </div>
                   <hr />
                   <div className="row">
                     <div className="col-sm-3">
-                      <p className="mb-0">Address</p>
+                      <p className="mb-0">Address 1</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                      <p className="text-muted mb-0">Sakhipada</p>
                     </div>
                   </div>
                   <hr />
-                  <Link to={`/user/profile/${userId}`} className="btn btn-warning text-uppercase">
-                    <i className="fa-solid fa-pen-to-square me-1"></i>Edit
-                  </Link>
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <p className="mb-0">Address 2</p>
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="text-muted mb-0">NA</p>
+                    </div>
+                  </div>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <p className="mb-0">City</p>
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="text-muted mb-0">Sambalpur</p>
+                    </div>
+                  </div>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <p className="mb-0">State</p>
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="text-muted mb-0">ODISHA</p>
+                    </div>
+                  </div>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <p className="mb-0">ZipCode</p>
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="text-muted mb-0">768001</p>
+                    </div>
+                  </div>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <p className="mb-0">Country</p>
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="text-muted mb-0">INDIA</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

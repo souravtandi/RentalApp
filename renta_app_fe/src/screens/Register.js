@@ -97,12 +97,12 @@ function Register() {
 
   return (
     <div className='container'>
+      <h3 className='text-center mt-4 shadow'>{userId ? "Edit User" : "Register User"}</h3>
       {loading ? <div className='text-center mt-5'>
         <div className="spinner-border" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
       </div> : ''}
-      <h3 className='text-center mt-4 shadow'>{userId ? "Edit User" : "Register User"}</h3>
       <form onSubmit={(event) => registerUser(event)} className='form-container mx-auto mt-4'>
         <div className="mb-3">
           <label htmlFor="firstName" className="form-label">First Name</label>
@@ -128,12 +128,12 @@ function Register() {
         <div className='d-grid mt-3'>
           <button type="submit" className="btn btn-success">{userId ? "Save" : "Register"}</button>
         </div>
-      </form>
-      <div className="text-center">
+        <div className="my-4">
           <div id="emailHelp" className="form-text text-primary">Already have an account ?
             <Link to="/login">Click here to Login</Link>
           </div>
         </div>
+      </form>
     </div>
   )
 }

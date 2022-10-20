@@ -70,7 +70,7 @@ function MyProperty() {
           <span className="visually-hidden">Loading...</span>
         </div>
       </div> : ''}
-      {!loading ? <div><h5 className='my-2'>My total properties: {properties.length}</h5></div>: ""}
+      {!loading ? <div><h5 className='my-2'>My properties: {properties.length}</h5></div>: ""}
       {properties.length > 0 ? properties.map((property) => {
         return (<div className="col-lg-4 col-md-4 col-sm-12 mb-2" key={property._id}>
           <div className='card'>

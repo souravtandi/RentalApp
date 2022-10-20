@@ -104,9 +104,9 @@ function AddProperty() {
   }
 
   return (
-    <div className='container pb-3 shadow mb-3'>
-      <h3 className='text-center mt-4'>{propertyId ? "Edit" : "Add"} Property</h3>
-      <form onSubmit={(event) => addProperty(event)} className='w-50 mx-auto'>
+    <div className='container py-3 mb-3'>
+      <h3 className='text-center my-2 shadow'>{propertyId ? "Edit" : "Add"} Property</h3>
+      <form onSubmit={(event) => addProperty(event)} className='form-container mx-auto'>
         <div className="mb-3">
           <label htmlFor="title" className="form-label">Title</label>
           <input onChange={(event) => setTitle(event.target.value)} value={title} type="text" className="form-control" id="title" required />

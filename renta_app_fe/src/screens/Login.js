@@ -41,13 +41,13 @@ function Login() {
 
     return (
         <div className='container p-4 my-2'>
+            <h4>{msg}</h4>
+            <h3 className='text-center mt-2 shadow' style={{ color: "F62459" }}>Login here</h3>
             {loading ? <div className='text-center mt-5'>
                 <div className="spinner-border" role="status">
                     <span className="visually-hidden">Loading...</span>
                 </div>
             </div> : ''}
-            <h4>{msg}</h4>
-            <h3 className='text-center mt-2 shadow' style={{ color: "F62459" }}>Login here</h3>
             <form onSubmit={(event) => Login(event)} className='form-container mx-auto mt-5'>
                 <div className="mb-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
