@@ -15,7 +15,8 @@ mongoose.connection.on('error', (error) => {
     console.log('Some error', error);
 });
 
-const APP_PORT = 5000;
+// Establishing the port
+const APP_PORT = process.env.PORT ||5000;
 
 app.use(cors());
 app.use(express.json());
