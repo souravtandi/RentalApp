@@ -21,6 +21,10 @@ const propertiesSchema = new mongoose.Schema({
     user: {
         type: ObjectId,
         ref: "UserModel"
+    },
+    address: {
+        type: ObjectId,
+        ref: "AddressModel"
     }
 });
 

@@ -26,11 +26,9 @@ app.use(require('./routes/user_router'));
 require('./models/properties_model');
 app.use(require('./routes/properties_router'));
 
-app.use(require('./routes/email_router'));
+app.use(require('./routes/file_router'))
 app.use(require('./routes/sms_router'));
-
-require('./models/user_model');
-app.use(require('./routes/user_router'));
+app.use(require('./routes/email_router'));
 
 app.use(require('./routes/file_router'));
 

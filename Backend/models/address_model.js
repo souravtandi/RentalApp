@@ -24,14 +24,6 @@ const adddressSchema = new mongoose.Schema({
     country: {
         type: String,
         required: true
-    },
-    user: {
-        type: ObjectId,
-        ref: "UserModel"
-    },
-    property: {
-        type: ObjectId,
-        ref: "PropertiesModel"
     }
 });
 

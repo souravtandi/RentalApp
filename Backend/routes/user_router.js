@@ -95,6 +95,7 @@ router.post('/register',upload, function(request, response){
                 response.status(201).json({"savedUser": savedUser});
             })
             .catch(function(error){
+                console.log(error)
                 return response.status(500).json({ error: "error occured"});
             });
     })
@@ -108,6 +109,7 @@ router.post('/register',upload, function(request, response){
 router.get('/user/profile/:userId', (req, res)=>{
     UserModel.findOne({ _id: req.params.userId })
     .select("-password")
+    .populate("address")
     .then((userFound) => {
             return res.json({ user: userFound })
      })
@@ -116,27 +118,32 @@ router.get('/user/profile/:userId', (req, res)=>{
      })
 });
 
-router.put('/user/profile/:userId', (req, res) => {
-    UserModel.findByIdAndUpdate(req.params.userId, {
-        fname : req.body.fname, lname: req.body.lname, phone: req.body.phone, profileImgName: req.body.imgName
-    }, null, function (err, docs) {
-        if (err){
-            console.log(err)
+router.put('/user/profile/:type/:userId', (req, res) => {
+    console.log(req)
+    let dataToUpdate;
+    if(req.params.type=='ad'){
+        dataToUpdate = {address: req.body.address};
+    }
+    if(req.params.type=='pd' || req.params.type=='pp'){
+        dataToUpdate = req.body;
+    }
+    UserModel.findByIdAndUpdate(req.params.userId, dataToUpdate, {new: true}, function (err, docs) {
+            if(err){
+                return res.status(400).json({ err: "Incorrect data" })
+            }
+            else{
+                return res.json({ user: docs })
+            }
         }
-        else{
-            
-            console.log("Original Doc : ",docs);
-            return res.json({ user: docs })
-        }
-    }).select("-password")
+    )
 })
 
 router.put('/user/profile/passwordReset', (req, res) => {
-    console.log(req.body)
+   // console.log(req.body)
     UserModel.findOneAndUpdate({$set:{email:req.body.email}}, {$set: {password: req.body.password}},
         {password: req.body.newPassword}, null, function (err, docs) {
             if(err){
-                return res.status(400).json({ err: "Existing email and password is incorrecct" })
+                return res.status(400).json({ err: "Existing email and password is incorrect" })
             }
             else{
                 return res.json({ user: docs })

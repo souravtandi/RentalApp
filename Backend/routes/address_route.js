@@ -6,7 +6,7 @@ const AddressModel = mongoose.model("AddressModel");
 
 const {authMiddleware, authRole} = require('../middlewere/protected_routes');
 
-router.post('/addAddress', authMiddleware, authRole('owner'), (request, response) => {
+router.post('/addAddress', authMiddleware, (request, response) => {
     const {addressLineOne, addressLineTwo, city, state, zipCode, country} = request.body
 
         if(!addressLineOne || !city || !state || !zipCode || !country) {
@@ -41,7 +41,7 @@ router.get('/viewAddress/:addressId', (req, res) => {
      })
 })
 
-router.put('/editAddress/:addressId', authMiddleware, authRole('owner'), (req, res) => {
+router.put('/editAddress/:addressId', authMiddleware, (req, res) => {
     AddressModel.findByIdAndUpdate(req.params.addressId, {
         addressLineOne: req.body.addressLineOne, addressLineTwo: req.body.addressLineTwo, city: req.body.city, state: req.body.state,  zipCode: req.body.zipCode, country: req.body.country 
     }, {new: true}, function (err, docs) {
@@ -49,7 +49,6 @@ router.put('/editAddress/:addressId', authMiddleware, authRole('owner'), (req, r
             console.log(err)
         }
         else{
-            
             console.log("Original Doc : ", docs);
             return res.json({ savedAddress: docs })
         }

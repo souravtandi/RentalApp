@@ -27,10 +27,13 @@ const userSchema = new mongoose.Schema({
         default: "tenant"
     },
     profileImgName: {
-        type: String,
-        required: true
+        type: String
     },
-    properties: [{type: ObjectId, ref: "UserModel"}]
+    address: {
+        type: ObjectId,
+        ref: "AddressModel"
+    },
+    properties: [{type: ObjectId, ref: "PropertiesModel"}]
  });
 
  mongoose.model("UserModel", userSchema);

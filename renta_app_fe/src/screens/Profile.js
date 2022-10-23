@@ -9,6 +9,12 @@ function Profile() {
   const [lname, setLname] = useState()
   const [email, setEmail] = useState()
   const [phone, setPhone] = useState()
+  const [addressLineOne, setAddressLineOne] = useState("");
+  const [addressLineTwo, setAddressLineTwo] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const [country, setCountry] = useState("");
   const [profileImg, setProfileImg] = useState()
   const [userId, setUserId] = useState()
   const [loading, setLoading] = useState(false);
@@ -26,6 +32,12 @@ function Profile() {
     setLname(profileData.data.user.lname)
     setEmail(profileData.data.user.email)
     setPhone(profileData.data.user.phone)
+    setAddressLineOne(profileData.data.user.address.addressLineOne)
+    setAddressLineTwo(profileData.data.user.address.addressLineTwo)
+    setCity(profileData.data.user.address.city)
+    setState(profileData.data.user.address.state)
+    setZipCode(profileData.data.user.address.zipCode)
+    setCountry(profileData.data.user.address.country)
     setProfileImg(profileData.data.user.profileImgName)
     setLoading(false);
   }
@@ -52,7 +64,7 @@ function Profile() {
               <div className="card mb-4">
                 <div className="card-body text-center">
                   <div className='d-flex flex-row-reverse' >
-                   <Link to={`/user/profile/pp/${userId}`} className="btn btn-warning text-uppercase">
+                    <Link to={`/user/profile/pp/${userId}`}>
                       <i className="fs-4 fa-solid fa-pen-to-square me-1" style={{ cursor: 'pointer' }}></i>
                     </Link>
                     <img src={`${API_URL}/files/${profileImg}`} alt="avatar"
@@ -125,7 +137,7 @@ function Profile() {
                       <p className="mb-0">Address 1</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">Sakhipada</p>
+                      <p className="text-muted mb-0">{addressLineOne}</p>
                     </div>
                   </div>
                   <hr />
@@ -134,7 +146,7 @@ function Profile() {
                       <p className="mb-0">Address 2</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">NA</p>
+                      <p className="text-muted mb-0">{addressLineTwo}</p>
                     </div>
                   </div>
                   <hr />
@@ -143,7 +155,7 @@ function Profile() {
                       <p className="mb-0">City</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">Sambalpur</p>
+                      <p className="text-muted mb-0">{city}</p>
                     </div>
                   </div>
                   <hr />
@@ -152,7 +164,7 @@ function Profile() {
                       <p className="mb-0">State</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">ODISHA</p>
+                      <p className="text-muted mb-0">{state}</p>
                     </div>
                   </div>
                   <hr />
@@ -161,7 +173,7 @@ function Profile() {
                       <p className="mb-0">ZipCode</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">768001</p>
+                      <p className="text-muted mb-0">{zipCode}</p>
                     </div>
                   </div>
                   <hr />
@@ -170,7 +182,7 @@ function Profile() {
                       <p className="mb-0">Country</p>
                     </div>
                     <div className="col-sm-9">
-                      <p className="text-muted mb-0">INDIA</p>
+                      <p className="text-muted mb-0">{country}</p>
                     </div>
                   </div>
                 </div>
