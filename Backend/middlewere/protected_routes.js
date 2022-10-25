@@ -4,9 +4,9 @@ const mongoose = require('mongoose');
 const UserModel = mongoose.model("UserModel");
 
 const authMiddleware = (req, res, next)=>{
-    console.log("inside auth middleware");
+    //console.log("inside auth middleware");
     const { authorization } = req.headers;
-    console.log(authorization)
+    //console.log(authorization)
     if (!authorization) {
         return res.status(401).json({ error: "Protected resource, you need to login to access it." });
     }

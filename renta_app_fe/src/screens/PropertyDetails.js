@@ -12,10 +12,12 @@ function PropertyDetails() {
 
   const navigate = useNavigate()
   const [property, setProperty] = useState({})
+  const [address, setAddress] = useState({})
 
   const [loading, setLoading] = useState(false);
 
   const { propertyId } = useParams()
+  const { addressId } = useParams()
   console.log(`propertyId ${propertyId}`)
 
   const CONFIG_OBJ = {
@@ -29,6 +31,11 @@ function PropertyDetails() {
     const result = await axios.get(`${API_URL}/viewProperties/${propertyId}`)
     setProperty(result.data.property)
   }
+  const getAddressDetails = async () => {
+    const result = await axios.get(`${API_URL}/viewAddress/${addressId}`)
+    setAddress(result.data.address)
+  }
+
 
   const contactOwner = () => {
     if(localStorage.getItem("token")){//user is logged in
@@ -57,6 +64,7 @@ function PropertyDetails() {
 
   useEffect(() => {
     getPropertyDetails()
+    getAddressDetails()
   }, [])
   return (
     <div className='container'>
@@ -94,7 +102,7 @@ function PropertyDetails() {
                   <hr />
                   <div className="row">
                     <div className="col-sm-3">
-                      <p className="mb-0">Price</p>
+                      <p className="mb-0">{address.zipCode}</p>
                     </div>
                     <div className="col-sm-9">
                       <p className="text-muted mb-0">{property.price}</p>

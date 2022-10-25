@@ -130,13 +130,13 @@ function Register() {
         <div className='d-flex justify-content-between'>
           <div className="form-check">
             <input onChange={(event) => setRole(event.target.value)} className="form-check-input" value="owner" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
-              <label className="form-check-label" for="flexRadioDefault1">
+              <label className="form-check-label" htmlFor="flexRadioDefault1">
                 Owner
               </label>
           </div>
           <div className="form-check">
             <input selected onChange={(event) => setRole(event.target.value)} className="form-check-input" value="tenant" type="radio" name="flexRadioDefault" id="flexRadioDefault2"/>
-              <label className="form-check-label" for="flexRadioDefault2">
+              <label className="form-check-label" htmlFor="flexRadioDefault2">
               Tenant
               </label>
           </div>

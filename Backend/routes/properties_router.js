@@ -7,7 +7,8 @@ const PropertiesModel = mongoose.model("PropertiesModel");
 const {authMiddleware, authRole} = require('../middlewere/protected_routes');
 
 router.post('/addProperties', authMiddleware, authRole('owner'), (request, response) => {
-    const {title, description, price, imgName, userId} = request.body
+    console.log(request.body)
+    const {title, description, price, imgName, userId, address } = request.body
 
         if(!title || !description || !price) {
             return response.status(400).json({ error: "title field is empty!" });
@@ -18,7 +19,8 @@ router.post('/addProperties', authMiddleware, authRole('owner'), (request, respo
             description,
             price,
             propertyImgName: imgName,
-            user: userId
+            user: userId,
+            address: address
         })
         propertiesModel.save()
             .then((savedProperties) => {
@@ -32,6 +34,7 @@ router.post('/addProperties', authMiddleware, authRole('owner'), (request, respo
 router.get('/viewProperties/:propertyId', (req, res) => {
     PropertiesModel.findOne({_id: req.params.propertyId})
     .populate("user", "_id fname lname email phone")
+    .populate("address")
     .then((propertyFound) => {
         return res.json({ property: propertyFound })
     })
@@ -41,10 +44,10 @@ router.get('/viewProperties/:propertyId', (req, res) => {
 })
 
 router.get('/viewAllProperties/:userId', authMiddleware, (req, res) => {
-    PropertiesModel.find({ user: { $in:  req.params.userId } })
+    PropertiesModel.find({ user: { $in:  req.params.userId }})
     //.populate("user", "_id fname lname email phone")
     .then((propertyFound) => {
-        console.log(propertyFound)
+        //console.log(propertyFound)
         return res.json({ allProperties: propertyFound })
     })
     .catch((err) => {
@@ -72,7 +75,7 @@ router.put('/editProperty/:propertyId', authMiddleware, authRole('owner'), (req,
         }
         else{
             
-            console.log("Original Doc : ", docs);
+            //console.log("Original Doc : ", docs);
             return res.json({ savedProperties: docs })
         }
     })

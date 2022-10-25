@@ -13,6 +13,13 @@ function AddProperty() {
   const [image, setImage] = useState({ preview: '', data: '' })
   const [status, setStatus] = useState('')
 
+  const [addressLineOne, setAddressLineOne] = useState("");
+  const [addressLineTwo, setAddressLineTwo] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const [country, setCountry] = useState("");
+
   const handleImgChange = (e) => {
     const img = {
       preview: URL.createObjectURL(e.target.files[0]),
@@ -40,20 +47,31 @@ function AddProperty() {
     setImage(img)
   }
   useEffect(() => {
-    if(propertyId){
+    if (propertyId) {
       getPropertyById(propertyId)
     }
-    
+
   }, []);
 
-  const addProperty = (event) => {
+  
+  
+  const addAddress = async () => {
+    const request = {addressLineOne, addressLineTwo, city, state, zipCode, country }
+    const newAddress = await axios.post(`${API_URL}/addAddress`,request, CONFIG_OBJ)
+    return newAddress
+  }
+
+  const addProperty = async (event) => {
     event.preventDefault();
+
+    const newAddress = await addAddress()
+   debugger;
     let formData = new FormData()
     formData.append('file', image.data)
     axios.post('http://localhost:5000/uploadFile', formData)
-    .then((data)=>{
+      .then((data) => {
         setStatus(data.statusText)
-        const request = { title, description, price, imgName: data.data.fileName, userId: localStorage.getItem("id") };
+        const request = { title, description, price, imgName: data.data.fileName, userId: localStorage.getItem("id"), address: newAddress.data.savedAddress};
         let url = `${API_URL}/addProperties`;
         let msg = 'Property added successfully...';
         if (propertyId) {
@@ -96,11 +114,10 @@ function AddProperty() {
               });
             })
         }
-    })
-    .catch((err)=>{
-      console.log(err);
-    })
-    
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
   return (
@@ -120,10 +137,34 @@ function AddProperty() {
           <input onChange={(event) => setPrice(event.target.value)} value={price} type="number" className="form-control" id="price" required />
         </div>
         <div className="mb-3">
-            {image.preview && <img src={image.preview} width='100' height='100' />}
-            <hr></hr>
-            <input type='file' name='file' onChange={handleImgChange}></input>
-            {status && <h4>{status}</h4>}
+          {image.preview && <img src={image.preview} width='100' height='100' />}
+          <hr></hr>
+          <input type='file' name='file' onChange={handleImgChange}></input>
+          {status && <h4>{status}</h4>}
+        </div>
+        <div className="mb-3 col-lg-6">
+          <label htmlFor="phone" className="form-label">Address Line 1</label>
+          <input onChange={(event) => setAddressLineOne(event.target.value)} value={addressLineOne} type="text" className="form-control" id="phone" />
+        </div>
+        <div className="mb-3 col-lg-6">
+          <label htmlFor="phone" className="form-label">Address Line 2</label>
+          <input onChange={(event) => setAddressLineTwo(event.target.value)} value={addressLineTwo} type="text" className="form-control" id="phone" />
+        </div>
+        <div className="mb-3 col-lg-6">
+          <label htmlFor="phone" className="form-label">City</label>
+          <input onChange={(event) => setCity(event.target.value)} value={city} type="text" className="form-control" id="phone" />
+        </div>
+        <div className="mb-3 col-lg-6">
+          <label htmlFor="phone" className="form-label">State</label>
+          <input onChange={(event) => setState(event.target.value)} value={state} type="text" className="form-control" id="phone" />
+        </div>
+        <div className="mb-3 col-lg-6">
+          <label htmlFor="phone" className="form-label">zipCode</label>
+          <input onChange={(event) => setZipCode(event.target.value)} value={zipCode} type="text" className="form-control" id="phone" />
+        </div>
+        <div className="mb-3 col-lg-6">
+          <label htmlFor="phone" className="form-label">Country</label>
+          <input onChange={(event) => setCountry(event.target.value)} value={country} type="text" className="form-control" id="phone" />
         </div>
         <div className='d-grid mt-3'>
           <button type="submit" className="btn btn-success">{propertyId ? "Update" : "Add"}</button>
