@@ -11,6 +11,7 @@ function Register() {
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
   const [phone, setPhone] = useState()
+  const [role, setRole] = useState()
   const [msg, setMsg] = useState()
 
   const [loading, setLoading] = useState(false);
@@ -37,8 +38,9 @@ function Register() {
   }, []);
 
   const registerUser = (event) => {
+    debugger;
     event.preventDefault();
-    const request = { fname, lname, email, password, phone };
+    const request = { fname, lname, email, password, phone, role };
     setLoading(true);
     let url = `${API_URL}/register`;
     let msg = 'User register successfully...';
@@ -124,6 +126,20 @@ function Register() {
         <div className="mb-3">
           <label htmlFor="phone" className="form-label">Phone no.</label>
           <input onChange={(event) => setPhone(event.target.value)} value={phone} type="text" className="form-control" id="phone" />
+        </div>
+        <div className='d-flex justify-content-between'>
+          <div className="form-check">
+            <input onChange={(event) => setRole(event.target.value)} className="form-check-input" value="owner" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
+              <label className="form-check-label" for="flexRadioDefault1">
+                Owner
+              </label>
+          </div>
+          <div className="form-check">
+            <input selected onChange={(event) => setRole(event.target.value)} className="form-check-input" value="tenant" type="radio" name="flexRadioDefault" id="flexRadioDefault2"/>
+              <label className="form-check-label" for="flexRadioDefault2">
+              Tenant
+              </label>
+          </div>
         </div>
         <div className='d-grid mt-3'>
           <button type="submit" className="btn btn-success">{userId ? "Save" : "Register"}</button>
