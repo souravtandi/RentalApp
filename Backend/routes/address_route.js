@@ -42,6 +42,7 @@ router.get('/viewAddress/:addressId', (req, res) => {
 })
 
 router.put('/editAddress/:addressId', authMiddleware, (req, res) => {
+    console.log(req.body)
     AddressModel.findByIdAndUpdate(req.params.addressId, {
         addressLineOne: req.body.addressLineOne, addressLineTwo: req.body.addressLineTwo, city: req.body.city, state: req.body.state,  zipCode: req.body.zipCode, country: req.body.country 
     }, {new: true}, function (err, docs) {

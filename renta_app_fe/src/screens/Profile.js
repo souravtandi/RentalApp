@@ -76,8 +76,8 @@ function Profile() {
                       className="rounded-circle img-fluid" />
                   </div>*/}
                   <h5 className="my-3">{fname} {lname}</h5>
-                  <p className="text-muted mb-1">Full Stack Developer</p>
-                  <p className="text-muted mb-4">Bay Area, San Francisco, CA</p>
+                  <p className="text-muted mb-1">Role: </p>
+                  <p className="text-muted mb-4">{addressLineOne}, {city}, {state}</p>
                   <div className="d-flex justify-content-center mb-2">
                     <button type="button" className="btn btn-outline-primary ms-1">Contact</button>
                     <button type="button" className="btn btn-outline-primary ms-1">Message</button>

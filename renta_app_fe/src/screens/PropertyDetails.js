@@ -17,7 +17,6 @@ function PropertyDetails() {
   const [loading, setLoading] = useState(false);
 
   const { propertyId } = useParams()
-  const { addressId } = useParams()
   console.log(`propertyId ${propertyId}`)
 
   const CONFIG_OBJ = {
@@ -30,10 +29,7 @@ function PropertyDetails() {
   const getPropertyDetails = async () => {
     const result = await axios.get(`${API_URL}/viewProperties/${propertyId}`)
     setProperty(result.data.property)
-  }
-  const getAddressDetails = async () => {
-    const result = await axios.get(`${API_URL}/viewAddress/${addressId}`)
-    setAddress(result.data.address)
+    setAddress(result.data.property.address)
   }
 
 
@@ -64,7 +60,6 @@ function PropertyDetails() {
 
   useEffect(() => {
     getPropertyDetails()
-    getAddressDetails()
   }, [])
   return (
     <div className='container'>
@@ -102,10 +97,64 @@ function PropertyDetails() {
                   <hr />
                   <div className="row">
                     <div className="col-sm-3">
-                      <p className="mb-0">{address.zipCode}</p>
+                      <p className="mb-0">Price</p>
                     </div>
                     <div className="col-sm-9">
                       <p className="text-muted mb-0">{property.price}</p>
+                    </div>
+                  </div>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <p className="mb-0">Address 1</p>
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="text-muted mb-0">{address.addressLineOne}</p>
+                    </div>
+                  </div>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <p className="mb-0">Address 2</p>
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="text-muted mb-0">{address.addressLineTwo}</p>
+                    </div>
+                  </div>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <p className="mb-0">City</p>
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="text-muted mb-0">{address.city}</p>
+                    </div>
+                  </div>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <p className="mb-0">State</p>
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="text-muted mb-0">{address.state}</p>
+                    </div>
+                  </div>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <p className="mb-0">ZipCode</p>
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="text-muted mb-0">{address.zipCode}</p>
+                    </div>
+                  </div>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <p className="mb-0">Country</p>
+                    </div>
+                    <div className="col-sm-9">
+                      <p className="text-muted mb-0">{address.country}</p>
                     </div>
                   </div>
                   <hr />

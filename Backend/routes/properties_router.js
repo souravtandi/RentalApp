@@ -7,8 +7,7 @@ const PropertiesModel = mongoose.model("PropertiesModel");
 const {authMiddleware, authRole} = require('../middlewere/protected_routes');
 
 router.post('/addProperties', authMiddleware, authRole('owner'), (request, response) => {
-    console.log(request.body)
-    const {title, description, price, imgName, userId, address } = request.body
+    const {title, description, price, propertyImgName, userId, address } = request.body
 
         if(!title || !description || !price) {
             return response.status(400).json({ error: "title field is empty!" });
@@ -18,7 +17,7 @@ router.post('/addProperties', authMiddleware, authRole('owner'), (request, respo
             title,
             description,
             price,
-            propertyImgName: imgName,
+            propertyImgName,
             user: userId,
             address: address
         })
@@ -27,6 +26,7 @@ router.post('/addProperties', authMiddleware, authRole('owner'), (request, respo
                 response.status(201).json({ "savedProperties": savedProperties })
             })
             .catch((error)=> {
+                console.log(error)
                 return response.status(400).json({ error: "error occured"})
             })
 })

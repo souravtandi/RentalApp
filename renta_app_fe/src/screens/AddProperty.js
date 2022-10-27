@@ -10,9 +10,11 @@ function AddProperty() {
   const [title, setTitle] = useState()
   const [description, setDescription] = useState()
   const [price, setPrice] = useState()
+  const [propertyImgName, setPropertyImgName] = useState('')
   const [image, setImage] = useState({ preview: '', data: '' })
   const [status, setStatus] = useState('')
 
+  const [address, setAddress] = useState()
   const [addressLineOne, setAddressLineOne] = useState("");
   const [addressLineTwo, setAddressLineTwo] = useState("");
   const [city, setCity] = useState("");
@@ -43,8 +45,16 @@ function AddProperty() {
     setTitle(property.data.property.title)
     setDescription(property.data.property.description)
     setPrice(property.data.property.price)
+    setPropertyImgName(property.data.property.propertyImgName)
     let img = { preview: `http://localhost:5000/files/${property.data.property.propertyImgName}`, data: '' }
     setImage(img)
+    setAddress(property.data.property.address)
+    setAddressLineOne(property.data.property.address.addressLineOne)
+    setAddressLineTwo(property.data.property.address.addressLineTwo)
+    setCity(property.data.property.address.city)
+    setState(property.data.property.address.state)
+    setZipCode(property.data.property.address.zipCode)
+    setCountry(property.data.property.address.country)
   }
   useEffect(() => {
     if (propertyId) {
@@ -53,71 +63,74 @@ function AddProperty() {
 
   }, []);
 
-  
-  
   const addAddress = async () => {
-    const request = {addressLineOne, addressLineTwo, city, state, zipCode, country }
-    const newAddress = await axios.post(`${API_URL}/addAddress`,request, CONFIG_OBJ)
+    const request = { addressLineOne, addressLineTwo, city, state, zipCode, country }
+    const newAddress = await axios.post(`${API_URL}/addAddress`, request, CONFIG_OBJ)
     return newAddress
+  }
+
+  const updateAddress = async (address, addressId) => {
+    const editAddress = await axios.put(`${API_URL}/editAddress/${addressId}`, address , CONFIG_OBJ)
+    return editAddress
+  }
+
+  const uploadImage = async ()=>{
+    let formData = new FormData()
+    formData.append('file', image.data)
+    const response = await axios.post('http://localhost:5000/uploadFile', formData)
+    setPropertyImgName(response.data.fileName)
+    return response
+  }
+
+  const addNewProperty = async (request) => {
+    return await axios.post(`${API_URL}/addProperties`, request, CONFIG_OBJ)
+  }
+
+  const updateExistingProperty = async (request, propertyId) => {
+    return await axios.put(`${API_URL}/editProperty/${propertyId}`, request, CONFIG_OBJ)
   }
 
   const addProperty = async (event) => {
     event.preventDefault();
+    let newAddress = {}
+    if (propertyId) {
+      const addressRequest = { addressLineOne, addressLineTwo, city, state, zipCode, country }
+      newAddress = await updateAddress(addressRequest, address._id)
+      const request = { title, description, price, propertyImgName, userId: localStorage.getItem("id"), address: newAddress.data.savedAddress };
+      const result = updateExistingProperty(request, propertyId)
 
-    const newAddress = await addAddress()
-   debugger;
-    let formData = new FormData()
-    formData.append('file', image.data)
-    axios.post('http://localhost:5000/uploadFile', formData)
-      .then((data) => {
-        setStatus(data.statusText)
-        const request = { title, description, price, imgName: data.data.fileName, userId: localStorage.getItem("id"), address: newAddress.data.savedAddress};
-        let url = `${API_URL}/addProperties`;
-        let msg = 'Property added successfully...';
-        if (propertyId) {
-          url = `${API_URL}/editProperty/${propertyId}`;
-          msg = 'Property modified successfully...';
-          axios.put(url, request, CONFIG_OBJ)
-            .then((data) => {
-              if (data) {
-                Swal.fire({
-                  icon: 'success',
-                  title: 'Property modified successfully',
-                  text: 'We will email you once Refresh is completed!',
-                });
-                navigate("/properties")
-              }
-            })
-            .catch((err) => {
-              Swal.fire({
-                icon: 'error',
-                title: 'Property not modified'
-              });
-            })
-        }
-        else {
-          axios.post(url, request, CONFIG_OBJ)
-            .then((data) => {
-              if (data) {
-                Swal.fire({
-                  icon: 'success',
-                  title: 'Property added Successfully',
-                  text: 'We will email you once Refresh is completed!',
-                });
-                navigate("/properties")
-              }
-            })
-            .catch((err) => {
-              Swal.fire({
-                icon: 'error',
-                title: 'Property not added'
-              });
-            })
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+      if (result) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Property modified successfully',
+          text: 'We will email you once Refresh is completed!',
+        });
+        navigate("/properties")
+      }else{
+        Swal.fire({
+          icon: 'error',
+          title: 'Property not modified'
+        });
+      }
+    } else {
+      newAddress = await addAddress()
+      uploadImage()
+      const request = { title, description, price, propertyImgName, userId: localStorage.getItem("id"), address: newAddress.data.savedAddress };
+      const result = addNewProperty(request)
+      if (result) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Property added successfully',
+          text: 'We will email you once Refresh is completed!',
+        });
+        navigate("/properties")
+      }else{
+        Swal.fire({
+          icon: 'error',
+          title: 'Property not added'
+        });
+      }
+    }
   }
 
   return (
