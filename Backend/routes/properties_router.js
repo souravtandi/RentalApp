@@ -91,4 +91,16 @@ router.delete('/deletepost/:propertyId', authMiddleware, async (req, res) => {
    }
 })
 
+router.get('/searchproperty', async (req, res) => {
+    console.log(req.params.key)
+    let data = await PropertiesModel.find(
+        {
+            "$or": [
+                { "title": {$regex: req.query.key, $options: 'i' }}
+            ]
+        }
+    )
+    res.send(data)
+})
+
 module.exports = router;

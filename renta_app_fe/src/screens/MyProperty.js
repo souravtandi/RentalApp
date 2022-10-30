@@ -17,6 +17,15 @@ function MyProperty() {
       }
   };
 
+  const searchHandle = async (e) => {
+    setLoading(false);
+    let key = e.target.value;
+    let result = await axios.get(`${API_URL}/searchproperty?key=`+key)
+    if(result){
+      setProperties(result.data)
+    }
+  }
+
   const deleteProperty = (propertyId)=>{
 
     Swal.fire({
@@ -71,7 +80,10 @@ function MyProperty() {
         </div>
       </div> : ''}
       {!loading ? <div><h5 className='my-2'>My properties: {properties.length}</h5></div>: ""}
-      {properties.length > 0 ? properties.map((property) => {
+      <div className='container my-3'>
+          <input type="text" placeholder=" Search Title..." onChange={searchHandle} />
+        </div>
+        {properties.length > 0 ? properties.map((property) => {
         return (<div className="col-lg-4 col-md-4 col-sm-12 mb-2" key={property._id}>
           <div className='card'>
           <img src={`http://localhost:5000/files/${property.propertyImgName}`} className="card-img-top w-10" alt="..."></img>

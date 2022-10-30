@@ -35,6 +35,9 @@ app.use(require('./routes/file_router'));
 require('./models/address_model');
 app.use(require('./routes/address_route'))
 
+require('./models/interested_model');
+app.use(require('./routes/intrested_router'));
+
 app.listen(APP_PORT, () => {
     console.log('Server started on port: ' + `${APP_PORT}`);
 });

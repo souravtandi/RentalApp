@@ -78,7 +78,6 @@ function AddProperty() {
     let formData = new FormData()
     formData.append('file', image.data)
     const response = await axios.post('http://localhost:5000/uploadFile', formData)
-    setPropertyImgName(response.data.fileName)
     return response
   }
 
@@ -98,37 +97,36 @@ function AddProperty() {
       newAddress = await updateAddress(addressRequest, address._id)
       const request = { title, description, price, propertyImgName, userId: localStorage.getItem("id"), address: newAddress.data.savedAddress };
       const result = updateExistingProperty(request, propertyId)
-
-      if (result) {
+      if (result.status==200) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Property not modified'
+        });
+      }else{
         Swal.fire({
           icon: 'success',
           title: 'Property modified successfully',
           text: 'We will email you once Refresh is completed!',
         });
         navigate("/properties")
-      }else{
-        Swal.fire({
-          icon: 'error',
-          title: 'Property not modified'
-        });
       }
     } else {
       newAddress = await addAddress()
-      uploadImage()
-      const request = { title, description, price, propertyImgName, userId: localStorage.getItem("id"), address: newAddress.data.savedAddress };
-      const result = addNewProperty(request)
-      if (result) {
-        Swal.fire({
-          icon: 'success',
-          title: 'Property added successfully',
-          text: 'We will email you once Refresh is completed!',
-        });
-        navigate("/properties")
-      }else{
+      const imgResponse = await uploadImage()
+      const request = { title, description, price, propertyImgName: imgResponse.data.fileName, userId: localStorage.getItem("id"), address: newAddress.data.savedAddress };
+      const result = await addNewProperty(request)
+      if (result.status==200) {
         Swal.fire({
           icon: 'error',
           title: 'Property not added'
         });
+      }else{
+        Swal.fire({
+          icon: 'success',
+          title: 'Property added successfully',
+          text: 'We will email you once Refresh is completed!'
+        });
+        navigate("/properties")
       }
     }
   }
