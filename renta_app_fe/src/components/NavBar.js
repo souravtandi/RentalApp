@@ -29,7 +29,7 @@ function NavBar() {
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/allProperties">All Properties</NavLink>
                         </li>
-                        { user.user.fname ? <li className="nav-item">
+                        { user.user.fname && user.user.role=='owner' ? <li className="nav-item">
                             <NavLink className="nav-link" to="/properties">My Properties</NavLink>
                         </li> : '' }
                         { user.user.fname && user.user.role=='owner' ? <li className="nav-item">
@@ -41,6 +41,9 @@ function NavBar() {
                         { user.user.fname ? '' : <li className="nav-item">
                             <NavLink className="nav-link" to="/register">Register</NavLink>
                         </li>}
+                        { user.user.fname ? <li className="nav-item">
+                            <NavLink className="nav-link" to="/myTenants">My Tenants</NavLink>
+                        </li> : ''}
                         { user.user.fname ? <li className="nav-item">
                             <NavLink className="nav-link" to="/userProfile">Profile</NavLink>
                         </li> : ''}

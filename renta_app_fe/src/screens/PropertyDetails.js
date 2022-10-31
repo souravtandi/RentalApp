@@ -27,8 +27,31 @@ function PropertyDetails() {
     }
   };
 
+  const updateRentStatus = async (propertyId, isRented)=>{
+    const request = {isRented: isRented}
+    return axios.put(`${API_URL}/myTenants/${propertyId}`, request, CONFIG_OBJ)
+  }
+  const addTenant = async (userId) => {
+    const request = { userId, propertyId }
+    const addTenantDetails = await axios.post(`${API_URL}/addTenant`, request, CONFIG_OBJ)
+    if(addTenantDetails.status == 201) {
+      await updateRentStatus(propertyId, true)
+      Swal.fire({
+        icon: 'success',
+        title: 'You have successfully rented the property',
+        text: 'We will email you once Refresh is completed!'
+      });
+    }else{
+      Swal.fire({
+        icon: 'danger',
+        title: 'Tenant not added',
+        text: 'We will email you once Refresh is completed!'
+      });
+    }
+  }
+
   const getTenantsList = async (propertyId) => {
-    const result = await axios.get(`${API_URL}/intrestedUsers/${propertyId}`)
+    const result = await axios.get(`${API_URL}/intrestedUsers/${propertyId}`, CONFIG_OBJ)
     setTenants(result.data.allInterestedTenants)
   }
 
@@ -165,12 +188,13 @@ function PropertyDetails() {
                 </div>
               </div>
               <hr />
-              <button onClick={() => { contactOwner() }} className='btn btn-primary'>Contact Owner</button>
+              {user.user.role!='owner' ?<button onClick={() => { contactOwner() }} className='btn btn-primary'>Contact Owner</button> : ""}
+              {user.user.role=='owner' ?<Link to={`/editProperty/${property._id}`} className="btn btn-info px-4">Edit</Link> : "" }
             </div>
           </div>
         </div>
       </div>
-      <h4>Intrested Tenants</h4>
+      {user.user.role=='owner' ?<h4>Intrested Tenants</h4> : ""}
       {/*
        tenants.map((tenant)=>{
           return (
@@ -180,13 +204,15 @@ function PropertyDetails() {
           )
         })
       */}
-      { <table className="table">
+      { user.user.role=='owner' ? <div className='table-responsive'><table className="table">
         <thead>
           <tr>
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
             <th scope="col">Phone</th>
+            <th scope="col">Profile</th>
+            <th scope="col">Decline</th>
           </tr>
         </thead>
         <tbody >
@@ -196,11 +222,14 @@ function PropertyDetails() {
             <td>{tenant.user.fname} {tenant.user.lname}</td>
             <td>{tenant.user.email}</td>
             <td>{tenant.user.phone}</td>
+            <td><button onClick={()=> addTenant(tenant.user._id)}>Add</button></td>
+            <td><Link to={`/userProfile/${tenant.user._id}`}>View</Link></td>
+            <td><i class="fa-solid fa-circle-xmark"></i></td>
           </tr>)
         })
         }
         </tbody>
-      </table> }
+      </table></div> : "" }
     </div>
 
   )

@@ -38,6 +38,9 @@ app.use(require('./routes/address_route'))
 require('./models/interested_model');
 app.use(require('./routes/intrested_router'));
 
+require('./models/tenants_model');
+app.use(require('./routes/tenants_router'));
+
 app.listen(APP_PORT, () => {
     console.log('Server started on port: ' + `${APP_PORT}`);
 });

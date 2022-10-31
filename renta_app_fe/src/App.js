@@ -12,6 +12,7 @@ import {useSelector} from 'react-redux'
 import PropertyDetails from './screens/PropertyDetails';
 import EditUser from './screens/EditUser';
 import Footer from './components/Footer';
+import MyTenants from './screens/MyTenants';
 
 function App() {
 
@@ -32,6 +33,8 @@ function App() {
           {user.user.fname ?<Route exact path='/addProperty' element={<AddProperty />}></Route> : ""}
           {user.user.fname ?<Route exact path='/editProperty/:propertyId' element={<AddProperty />}></Route> : ""}
           {user.user.fname ?<Route exact path='/userProfile' element={<Profile />}></Route> : ""}
+          {user.user.fname ?<Route exact path='/userProfile/:userId' element={<Profile />}></Route> : ""}
+          {user.user.fname ?<Route exact path='/myTenants' element={<MyTenants />}></Route> : ""}
         </Routes>
         <Footer/>
       </div>

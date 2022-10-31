@@ -8,7 +8,7 @@ const { authMiddleware, authRole } = require('../middlewere/protected_routes');
 
 router.post('/intrested', authMiddleware, (req, res) => {
     const { userId, propertyId } = req.body
-    IntrestedModel.findOne({ userId: userId, propertyId: propertyId })
+    IntrestedModel.findOne({ user: userId, property: propertyId })
         .then((userInDb) => {
             if (userInDb) {
                 return res.status(400).json({ error: "You have already shown intrest!" })
@@ -32,7 +32,7 @@ router.post('/intrested', authMiddleware, (req, res) => {
         })
 })
 
-router.get('/intrestedUsers/:propertyId', (req, res) => {
+router.get('/intrestedUsers/:propertyId', authMiddleware, (req, res) => {
     IntrestedModel.find({ property: { $in: req.params.propertyId } })
         .populate("user", "_id fname lname email phone")
         .then((userFound) => {

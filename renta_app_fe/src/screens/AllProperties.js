@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { API_URL } from '../config'
 import axios from 'axios';
-import { Link, useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Swal from 'sweetalert2';
+import { useSelector } from 'react-redux'
 
 function AllProperties() {
+
+  const user = useSelector(state => state.user)
 
   const CONFIG_OBJ = {
     headers: {
@@ -18,19 +21,26 @@ function AllProperties() {
 
   const intrestedUser = async (propertyId) => {
     const request = { userId: localStorage.getItem("id"), propertyId }
-    const result = await axios.post(`${API_URL}/intrested`, request, CONFIG_OBJ)
-      if (result.status==200) {
-        Swal.fire({
-          icon: 'error',
-          title: 'unable to request'
-        });
-      }else{
+    let result;
+    try {
+      result = await axios.post(`${API_URL}/intrested`, request, CONFIG_OBJ)
+      debugger;
+      if (result.status == 201) {
         Swal.fire({
           icon: 'success',
           title: 'Your intrest has been sent to the owner',
           text: 'We will email you once Refresh is completed!'
         });
       }
+    }catch(error){
+      if (error.response.status == 400) {
+        Swal.fire({
+          icon: 'error',
+          title: 'You have already shown interest in this property'
+        });
+      }
+    }
+      
   }
 
   const searchHandle = async (e) => {
@@ -76,7 +86,7 @@ function AllProperties() {
                 <h6 className="card-subtitle mb-2 text-muted">{property.description}</h6>
                 <p className="card-text">₹ {property.price}</p>
                 <div className='d-flex justify-content-between'>
-                  <button onClick={()=> intrestedUser(property._id)} type="button" className="btn btn-outline-info">Intrested</button>
+                  { user.user.role!='owner' ?<button onClick={()=> intrestedUser(property._id)} type="button" className="btn btn-outline-info">Intrested ?</button> : "" }
                   <Link to={`/propertyDetails/${property._id}`} className="btn btn-outline-primary"><i className="fa-solid fa-circle-info me-2"></i>View Details</Link>
                 </div>
               </div>
