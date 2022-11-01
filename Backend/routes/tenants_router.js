@@ -7,28 +7,21 @@ const TenantsModel = mongoose.model("TenantsModel");
 const { authMiddleware, authRole } = require('../middlewere/protected_routes');
 
 
-router.get('/myTenants', authMiddleware, (req, res) => {
+router.get('/myTenants', authMiddleware, async (req, res) => {
     const user = req.dbUser;
-    let tenantList = []
+    let tenantList = new Array()
     //console.log(user)
-    PropertiesModel.find({ user: { $in: user._id } })
-    .then((propertyFound) => {
-        for(let i=0; i<propertyFound.length; i++){
-            TenantsModel.find({ property: { $in: propertyFound[i]._id } })
-            .populate("user", "_id fname lname email phone")
-            .then((tenantFound) => {
-                tenantList.push(tenantFound)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-
-        }
-        return res.json({ allTenants: tenantList })
-    })
-    .catch((err) => {
-        return res.status(400).json({ err: "Property was not found!" })
-    })
+    const myProps = await PropertiesModel.find({ user: { $in: user._id } });
+    
+    for(let i=0; i<myProps.length; i++){
+        const tenantData = await TenantsModel.find({ property: { $in: myProps[i]._id } })
+        .populate("user", "_id fname lname email phone profileImgName")
+        .populate("property");
+        if(tenantData[0] != null)
+            tenantList.push(tenantData[0])
+    }
+    
+    return res.json({ allTenants: tenantList })
 })
 
 router.post('/addTenant', authMiddleware, (req, res) => {

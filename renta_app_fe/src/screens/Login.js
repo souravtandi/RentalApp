@@ -3,7 +3,7 @@ import { API_URL } from '../config'
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-
+import Swal from 'sweetalert2';
 
 function Login() {
 
@@ -36,6 +36,10 @@ function Login() {
             .catch((err) => {
                 setLoading(false);
                 dispatch({ type: "APIERROR" })
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Invalid user'
+                  });
             })
     }
 
@@ -51,12 +55,12 @@ function Login() {
             <form onSubmit={(event) => Login(event)} className='form-container mx-auto mt-5'>
                 <div className="mb-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
-                    <input onChange={(event) => setEmail(event.target.value)} type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                    <input onChange={(event) => setEmail(event.target.value)} type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required/>
                     <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                    <input onChange={(event) => setPassword(event.target.value)} type="password" className="form-control" id="exampleInputPassword1" />
+                    <input onChange={(event) => setPassword(event.target.value)} type="password" className="form-control" id="exampleInputPassword1" required/>
                 </div>
                 <div className='d-grid mt-3'>
                     <button type="submit" className="btn btn-primary">Login</button>
