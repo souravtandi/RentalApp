@@ -6,7 +6,26 @@ const tenantsSchema = new mongoose.Schema({
         type: ObjectId,
         ref: "UserModel"
     },
-    property: {type: ObjectId, ref: "PropertiesModel"}
+    property: {type: ObjectId, ref: "PropertiesModel"},
+    startDate: {
+
+    },
+    advanceAmount: {
+
+    },
+    rentPaidDate: {
+
+    },
+    
+    rentAmount: {
+
+    },
+    rentDueDate: {
+
+    },
+    rentPaidFor: {
+        
+    }
 });
 
 mongoose.model("TenantsModel",(tenantsSchema));

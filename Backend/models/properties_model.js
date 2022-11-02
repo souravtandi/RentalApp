@@ -27,7 +27,7 @@ const propertiesSchema = new mongoose.Schema({
         ref: "AddressModel"
     },
     intrested: [{type: ObjectId, ref: "IntrestedModel"}],
-    isRented: false
+    isRented: { type: Boolean, default: false }
 });
 
 mongoose.model("PropertiesModel",(propertiesSchema));

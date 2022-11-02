@@ -7,7 +7,7 @@ const PropertiesModel = mongoose.model("PropertiesModel");
 const { authMiddleware, authRole } = require('../middlewere/protected_routes');
 
 router.post('/addProperties', authMiddleware, authRole('owner'), (request, response) => {
-    const { title, description, price, propertyImgName, userId, address } = request.body
+    const { title, description, price, propertyImgName, userId, address, isRented } = request.body
 
     if (!title || !description || !price) {
         return response.status(400).json({ error: "title field is empty!" });
@@ -19,7 +19,8 @@ router.post('/addProperties', authMiddleware, authRole('owner'), (request, respo
         price,
         propertyImgName,
         user: userId,
-        address: address
+        address: address,
+        isRented: isRented
     })
     propertiesModel.save()
         .then((savedProperties) => {
@@ -56,7 +57,7 @@ router.get('/viewAllProperties/:userId', authMiddleware, (req, res) => {
 })
 
 router.get('/viewAllProperties', (req, res) => {
-    PropertiesModel.find()
+    PropertiesModel.find({ isRented: false })
         //.populate("user", "_id fname lname email phone")
         .then((propertyFound) => {
             return res.json({ allProperties: propertyFound })
@@ -92,14 +93,24 @@ router.delete('/deletepost/:propertyId', authMiddleware, async (req, res) => {
 })
 
 router.get('/searchproperty', async (req, res) => {
-    console.log(req.params.key)
-    let data = await PropertiesModel.find(
-        {
+    let data = []
+    if(req.query.userId) {
+        data = await PropertiesModel.find ({ user: req.query.userId,
+            
+                "$and": [
+                    { "title": { $regex: req.query.key, $options: 'i' } }
+                ]
+            }
+        )
+    }else{
+     data = await PropertiesModel.find (
+        { isRented: false,
             "$or": [
                 { "title": { $regex: req.query.key, $options: 'i' } }
             ]
         }
     )
+    }
     res.send(data)
 })
 

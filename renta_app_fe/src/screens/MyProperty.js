@@ -18,6 +18,7 @@ function MyProperty() {
   };
 
   const searchHandle = async (e) => {
+    debugger;
     setLoading(false);
     let key = e.target.value;
     let result = await axios.get(`${API_URL}/searchproperty?key=`+key)
@@ -88,7 +89,10 @@ function MyProperty() {
           <div className='card'>
           <img src={`http://localhost:5000/files/${property.propertyImgName}`} className="card-img-top w-10" alt="..."></img>
           <div className="card-body shadow">
-            <h5 className="card-title">{property.title}</h5>
+            <div className='d-flex justify-content-between'>
+              <h5 className="card-title">{property.title}</h5>
+              { property.isRented == true ? <h6 style={{color: "green"}}>Rented</h6> : ""}
+            </div>
             <h6 className="card-subtitle mb-2 text-muted">{property.description}</h6>
             <p className="card-text">{property.price}</p>
             <div className='d-flex justify-content-evenly'>

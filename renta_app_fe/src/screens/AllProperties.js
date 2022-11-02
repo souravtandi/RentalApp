@@ -75,7 +75,7 @@ function AllProperties() {
         </div> : ''}
         <h5 className='my-2'>All Properties: {properties.length}</h5>
         <div className='container my-3'>
-          <input type="text" placeholder=" Search Title..." onChange={searchHandle} />
+          <input onChange={searchHandle} className="form-control me-2" type="search" placeholder="Search here..." aria-label="Search"/>
         </div>
         {properties.length > 0 ? properties.map((property) => {
           return (<div className="col-lg-4 col-md-4 col-sm-12 mb-2" key={property._id}>
