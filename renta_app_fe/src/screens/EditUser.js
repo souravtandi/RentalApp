@@ -40,7 +40,6 @@ function EditUser() {
     };
 
     const updatePersonalInfo = async (personalData, type) => {
-        debugger;
         const updatedData = await axios.put(`${API_URL}/user/profile/${type}/${userId}`, personalData, CONFIG_OBJ)
         setLoading(false);
         Swal.fire({

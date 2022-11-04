@@ -10,9 +10,11 @@ function NavBar() {
     const navigate = useNavigate()
 
     const user = useSelector(state => state.user)
+
     const logout = () => {
         localStorage.removeItem("token")
         localStorage.removeItem("id")
+        localStorage.removeItem("user")
         dispatch({ type: "LOGOUT" })
         navigate("/login")
     }
@@ -29,30 +31,27 @@ function NavBar() {
                         <li className="nav-item">
                             <NavLink className="nav-link" to="/allProperties">All Properties</NavLink>
                         </li>
-                        {user.user.fname && user.user.role == 'owner' ? <li className="nav-item">
+                        {user && user.user.fname && user.user.role == 'owner' ? <li className="nav-item">
                             <NavLink className="nav-link" to="/properties">My Properties</NavLink>
                         </li> : ''}
-                        {user.user.fname && user.user.role == 'owner' ? <li className="nav-item">
+                        {user && user.user.fname && user.user.role == 'owner' ? <li className="nav-item">
                             <NavLink className="nav-link" to="/addProperty">Add Property</NavLink>
                         </li> : ''}
-                        {user.user.fname ? '' : <li className="nav-item">
+                        {user && user.user.fname ? '' : <li className="nav-item">
                             <NavLink className="nav-link" to="/login">Login</NavLink>
                         </li>}
-                        {user.user.fname ? '' : <li className="nav-item">
+                        {user && user.user.fname ? '' : <li className="nav-item">
                             <NavLink className="nav-link" to="/register">Register</NavLink>
                         </li>}
-                        {user.user.fname ? <li className="nav-item">
+                        {user && user.user.fname && user.user.role == 'owner' ? <li className="nav-item">
                             <NavLink className="nav-link" to="/myTenants">My Tenants</NavLink>
                         </li> : ''}
-                        {user.user.fname ? <li className="nav-item">
+                        {user && user.user.fname ? <li className="nav-item">
                             <NavLink className="nav-link" to="/userProfile">Profile</NavLink>
                         </li> : ''}
-                        {/* {user.user.fname ? <li className="nav-item">
-                            <button className="btn btn-danger" onClick={() => logout()}>Logout</button>
-                        </li> : ''} */}
                     </ul>
                     <form className="d-flex">
-                    {user.user.fname ?<button className="btn btn-danger" onClick={() => logout()}>Logout</button>: ''}
+                        {user && user.user.fname ? <button className="btn btn-danger" onClick={() => logout()}>Logout</button> : ''}
                     </form>
                     {/* <p>{user.user.fname}</p> */}
                 </div>

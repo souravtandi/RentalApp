@@ -77,7 +77,7 @@ function Register() {
                 console.log(err + "email not sent")
               })
             Swal.fire({
-              icon: 'info',
+              icon: 'success',
               title: 'Register successfully...',
               text: 'We will email you once Refresh is completed!',
             });

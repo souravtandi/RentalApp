@@ -26,6 +26,7 @@ function Login() {
                 if (data) {
                     setMsg("Login successfully!")
                     localStorage.setItem("token", data.data.result.token)
+                    localStorage.setItem("user",JSON.stringify( data.data.result.user))
                     localStorage.setItem("id", data.data.result.id)
                     dispatch({ type: "APISUCCESS", payload: data.data.result.user })
 

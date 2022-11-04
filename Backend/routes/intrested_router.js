@@ -43,4 +43,14 @@ router.get('/intrestedUsers/:propertyId', authMiddleware, (req, res) => {
         })
 })
 
+router.delete('/deleteIntrestedTenant/:propertyId', async (req, res) => {
+    const result = await IntrestedModel.deleteMany({property: { $in: req.params.propertyId }})
+    if (result.deletedCount > 0) {
+        res.send(`deleted ${result.deletedCount} properties successfully`)
+    }
+    else {
+        res.status(404).send("cannot find property with id ")
+    }
+})
+
 module.exports = router;

@@ -8,23 +8,22 @@ const tenantsSchema = new mongoose.Schema({
     },
     property: {type: ObjectId, ref: "PropertiesModel"},
     startDate: {
-
+        type: Date
     },
     advanceAmount: {
-
+        type: Number
     },
     rentPaidDate: {
-
+        type: Date
     },
-    
     rentAmount: {
-
+        type: Number
     },
-    rentDueDate: {
-
+    rentNextDate: {
+        type: Date
     },
     rentPaidFor: {
-        
+        type: Date
     }
 });
 

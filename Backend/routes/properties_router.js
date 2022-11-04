@@ -75,7 +75,6 @@ router.put('/editProperty/:propertyId', authMiddleware, authRole('owner'), (req,
             console.log(err)
         }
         else {
-
             //console.log("Original Doc : ", docs);
             return res.json({ savedProperties: docs })
         }
@@ -96,9 +95,8 @@ router.get('/searchproperty', async (req, res) => {
     let data = []
     if(req.query.userId) {
         data = await PropertiesModel.find ({ user: req.query.userId,
-            
                 "$and": [
-                    { "title": { $regex: req.query.key, $options: 'i' } }
+                    { "title": { $regex: req.query.key, $options: 'i' }}
                 ]
             }
         )

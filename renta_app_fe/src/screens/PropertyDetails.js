@@ -31,16 +31,25 @@ function PropertyDetails() {
     const request = {isRented: isRented}
     return axios.put(`${API_URL}/myTenants/${propertyId}`, request, CONFIG_OBJ)
   }
-  const addTenant = async (userId) => {
-    const request = { userId, propertyId }
+
+  const removeTenant = async (propertyId) => {
+    debugger;
+    return axios.delete(`${API_URL}/deleteIntrestedTenant/${propertyId}` )
+  }
+
+  const addTenant = async (tenantId) => {
+    debugger;
+    const request = { userId: tenantId, propertyId }
     const addTenantDetails = await axios.post(`${API_URL}/addTenant`, request, CONFIG_OBJ)
     if(addTenantDetails.status == 201) {
       await updateRentStatus(propertyId, true)
+      await removeTenant(propertyId)
       Swal.fire({
         icon: 'success',
         title: 'You have successfully rented the property',
         text: 'We will email you once Refresh is completed!'
       });
+      getTenantsList(propertyId)
     }else{
       Swal.fire({
         icon: 'danger',
@@ -48,6 +57,7 @@ function PropertyDetails() {
         text: 'We will email you once Refresh is completed!'
       });
     }
+
   }
 
   const getTenantsList = async (propertyId) => {

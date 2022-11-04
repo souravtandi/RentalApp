@@ -18,7 +18,6 @@ function MyProperty() {
   };
 
   const searchHandle = async (e) => {
-    debugger;
     setLoading(false);
     let key = e.target.value;
     let result = await axios.get(`${API_URL}/searchproperty?key=`+key)
