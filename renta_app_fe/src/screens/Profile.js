@@ -78,10 +78,10 @@ function Profile() {
                   <h5 className="my-3">{fname} {lname}</h5>
                   <p className="text-muted mb-1">Role: </p>
                   <p className="text-muted mb-4">{addressLineOne}, {city}, {state}</p>
-                  <div className="d-flex justify-content-center mb-2">
+                  {/* <div className="d-flex justify-content-center mb-2">
                     <button type="button" className="btn btn-outline-primary ms-1">Contact</button>
                     <button type="button" className="btn btn-outline-primary ms-1">Message</button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

@@ -78,8 +78,7 @@ function Register() {
               })
             Swal.fire({
               icon: 'success',
-              title: 'Register successfully...',
-              text: 'We will email you once Refresh is completed!',
+              title: 'Register successfully...'
             });
             navigate("/login")
           }
@@ -87,9 +86,9 @@ function Register() {
         .catch((err) => {
           setLoading(false);
           Swal.fire({
-            icon: 'info',
+            icon: 'error',
             title: 'Registration failed !!!',
-            text: 'Please Register again!'
+            text: 'Please enter proper data!'
           });
         })
     }
@@ -108,34 +107,34 @@ function Register() {
       <form onSubmit={(event) => registerUser(event)} className='form-container mx-auto mt-4'>
         <div className="mb-3">
           <label htmlFor="firstName" className="form-label">First Name</label>
-          <input onChange={(event) => setFname(event.target.value)} value={fname} type="text" className="form-control" id="firstName" />
+          <input required onChange={(event) => setFname(event.target.value)} value={fname} type="text" className="form-control" id="firstName" />
         </div>
         <div className="mb-3">
           <label htmlFor="lastName" className="form-label">Last Name</label>
-          <input onChange={(event) => setLname(event.target.value)} value={lname} type="text" className="form-control" id="lastName" />
+          <input required onChange={(event) => setLname(event.target.value)} value={lname} type="text" className="form-control" id="lastName" />
         </div>
         {userId ? "" : <div className="mb-3">
           <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
-          <input onChange={(event) => setEmail(event.target.value)} type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+          <input required onChange={(event) => setEmail(event.target.value)} type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
           <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
         </div>}
         {userId ? "" : <div className="mb-3">
           <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-          <input onChange={(event) => setPassword(event.target.value)} type="password" className="form-control" id="exampleInputPassword1" />
+          <input required onChange={(event) => setPassword(event.target.value)} type="password" className="form-control" id="exampleInputPassword1" />
         </div>}
         <div className="mb-3">
           <label htmlFor="phone" className="form-label">Phone no.</label>
-          <input onChange={(event) => setPhone(event.target.value)} value={phone} type="text" className="form-control" id="phone" />
+          <input required onChange={(event) => setPhone(event.target.value)} value={phone} type="text" className="form-control" id="phone" />
         </div>
         <div className='d-flex justify-content-between'>
           <div className="form-check">
-            <input onChange={(event) => setRole(event.target.value)} className="form-check-input" value="owner" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
+            <input required onChange={(event) => setRole(event.target.value)} className="form-check-input" value="owner" type="radio" name="flexRadioDefault" id="flexRadioDefault1"/>
               <label className="form-check-label" htmlFor="flexRadioDefault1">
                 Owner
               </label>
           </div>
           <div className="form-check">
-            <input selected onChange={(event) => setRole(event.target.value)} className="form-check-input" value="tenant" type="radio" name="flexRadioDefault" id="flexRadioDefault2"/>
+            <input required selected onChange={(event) => setRole(event.target.value)} className="form-check-input" value="tenant" type="radio" name="flexRadioDefault" id="flexRadioDefault2"/>
               <label className="form-check-label" htmlFor="flexRadioDefault2">
               Tenant
               </label>

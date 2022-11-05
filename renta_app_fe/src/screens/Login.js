@@ -39,7 +39,8 @@ function Login() {
                 dispatch({ type: "APIERROR" })
                 Swal.fire({
                     icon: 'error',
-                    title: 'Invalid user'
+                    title: 'Login failed!',
+                    text: 'Please check your email and password'
                   });
             })
     }
